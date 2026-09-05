@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子详情 - 星途平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/3.3.0/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: 'Inter', system-ui, sans-serif;background-color: #f7f3ea;color: #111827;display: flex;min-height: 100vh;}
+        .sidebar {width: 250px;background-color: #111827;color: white;min-height: 100vh;padding: 24px 20px;display: flex;flex-direction: column;justify-content: space-between;flex-shrink: 0;}
+        .sidebar-logo {display: flex;align-items: center;gap: 10px;margin-bottom: 32px;}
+        .sidebar-logo .logo-mark {width: 34px;height: 34px;background-color: #ffffff;border-radius: 10px;display: flex;align-items: center;justify-content: center;color: #111827;font-weight: 700;font-size: 18px;}
+        .sidebar-logo .logo-text {font-size: 20px;font-weight: 700;letter-spacing: 0.5px;}
+        .nav-item {display: flex;align-items: center;gap: 12px;padding: 11px 14px;border-radius: 12px;color: #d1d5db;cursor: pointer;transition: 0.22s ease;margin-bottom: 8px;font-size: 14px;}
+        .nav-item:hover {background-color: #1f2937;color: #ffffff;}
+        .nav-item.active {background-color: #ffffff;color: #111827;font-weight: 600;}
+        .sidebar-bottom {margin-top: auto;padding-top: 24px;border-top: 1px solid #1f2937;}
+        .user-card {background-color: #1f2937;border-radius: 14px;padding: 14px;margin-bottom: 16px;}
+        .user-avatar {width: 42px;height: 42px;border-radius: 50%;background: linear-gradient(135deg, #fbbf24, #f97316);display: flex;align-items: center;justify-content: center;font-weight: 700;color: #111827;margin-bottom: 10px;}
+        .user-name {font-size: 15px;font-weight: 600;color: #ffffff;}
+        .user-role {font-size: 12px;color: #9ca3af;}
+        .main-content {flex: 1;padding: 24px 32px;overflow-y: auto;}
+        .back-btn{margin-bottom:20px;cursor:pointer;color:#2374dd;}
+        .detail-card{background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 14px rgba(0,0,0,0.06);margin-bottom:20px;}
+        .detail-title{font-size:24px;font-weight:bold;margin-bottom:15px;}
+        .detail-meta{color:#666;font-size:14px;margin-bottom:25px;}
+        .detail-tag{padding:3px 10px;border-radius:6px;background:#f0f7ff;color:#2374dd;font-size:13px;}
+        .detail-content{line-height:1.8;font-size:15px;color:#333;}
+        .comment-title{font-size:18px;font-weight:bold;margin:30px 0 15px 0;}
+        .comment-item{background:#fff;padding:15px;border-radius:12px;margin-bottom:12px;box-shadow:0 2px 8px #eee;}
+        .com-user{font-weight:bold;margin-bottom:5px;}
+        .com-time{font-size:12px;color:#999;margin-bottom:8px;}
+        .com-text{font-size:14px;color:#444;line-height:1.6;}
+        .send-comment{margin-top:20px;background:#fff;padding:20px;border-radius:16px;}
+        .send-comment textarea{width:100%;border:1px solid #ddd;padding:12px;border-radius:8px;outline:none;resize:none;}
+        .send-btn{margin-top:10px;padding:8px 20px;background:#111827;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-logo">
+                <div class="logo-mark">星</div>
+                <div class="logo-text">星途平台</div>
+            </div>
+            <nav>
+                <div class="nav-item" onclick="location.href='index.html'">
+                    <i class="fas fa-th-large"></i><span>仪表盘</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-info.html'">
+                    <i class="fas fa-newspaper"></i><span>竞赛资讯</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-team.html'">
+                    <i class="fas fa-users"></i><span>竞赛组队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='teacher.html'">
+                    <i class="fas fa-user-tie"></i><span>导师团队</span>
+                </div>
+                <div class="nav-item active" onclick="location.href='community.html'">
+                    <i class="fas fa-comments"></i><span>社区讨论</span>
+                </div>
+                <div class="nav-item" onclick="location.href='plan.html'">
+                    <i class="fas fa-lightbulb"></i><span>升学规划</span>
+                </div>
+                <div class="nav-item" onclick="location.href='setting.html'">
+                    <i class="fas fa-cog"></i><span>设置</span>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="user-card">
+                <div class="user-avatar">S</div>
+                <div class="user-name">Student</div>
+                <div class="user-role">大数据管理与应用 · 大二</div>
+            </div>
+            <div class="nav-item" onclick="logoutSys()">
+                <i class="fas fa-sign-out-alt"></i><span>退出登录</span>
+            </div>
+        </div>
+    </aside>
+    <main class="main-content">
+        <div class="back-btn" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i> 返回社区列表
+        </div>
+        <div class="detail-card">
+            <h2 class="detail-title" id="dTitle"></h2>
+            <div class="detail-meta">
+                发布时间：<span id="dTime"></span>
+                <span class="detail-tag" id="dTag"></span>
+            </div>
+            <div class="detail-content" id="dContent"></div>
+        </div>
+
+        <!-- 评论区 -->
+        <h3 class="comment-title">全部讨论评论</h3>
+        <div id="commentBox"></div>
+
+        <!-- 发表评论 -->
+        <div class="send-comment">
+            <textarea rows="3" id="myComment" placeholder="写下你的看法、疑问或者经验分享..."></textarea>
+            <button class="send-btn" onclick="addComment()">发布评论</button>
+        </div>
+    </main>
+<script>
+if(!localStorage.getItem('isLogin')){
+    window.location.href="login.html";
+}
+function logoutSys(){
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('userName');
+    alert('已退出登录');
+    location.href='login.html';
+}
+
+// 帖子完整数据（扩充超长内容）
+const postData = {
+    1:{
+        title:"大数据管理专业选课优先级推荐",
+        time:"2026-07-17",
+        tag:"学习干货",
+        content:"大二大三是专业知识打基础最关键的两年，优先选修数据分析、数据挖掘、Python应用、自然资源大数据、数据库原理这类核心课程。这些课程不仅完全贴合本专业官方培养方案，课程内学到的知识点还能直接套用在各类学科竞赛、创新创业项目以及最后的毕业设计当中，实用性拉满。尽量避开内容浅显、学分轻松但是学不到实质东西的水课，合理搭配必修课与选修课，提前规划好每学期学分，避免大四集中补课手忙脚乱。",
+        comment:[
+            {user:"小宇同学",time:"2026-07-17 10:22",text:"太实用了，之前乱选课浪费好多时间，这下清楚优先级了"},
+            {user:"阿泽",time:"2026-07-17 11:05",text:"自然资源大数据这门课真的强烈推荐，老师讲课很细致"},
+            {user:"晴子",time:"2026-07-16 19:30",text:"想问一下Python课程难不难，零基础能不能跟上"},
+            {user:"往届学长",time:"2026-07-16 21:10",text:"零基础完全没问题，上课认真听多敲代码很快就能入门"},
+            {user:"木木",time:"2026-07-15 16:22",text:"已经收藏，慢慢对照选课"},
+        ]
+    },
+    2:{
+        title:"数模竞赛零基础入门学习路线分享",
+        time:"2026-07-15",
+        tag:"竞赛经验",
+        content:"零基础准备数学建模竞赛不用一开始就啃复杂算法，先理清整体参赛流程与基础建模思维，熟练掌握标准竞赛论文写作格式与排版规范。日常练习多用Excel、SPSS完成基础数据分析与数据可视化工作，打好数据处理基本功。有一定基础之后再进阶学习Python数据分析、多元统计模型、优化模型等内容。组队一定要提前划分好写作、建模、编程三个明确分工，互相配合效率更高，每年暑假都是集中备赛、冲刺拿奖的最佳时间段。",
+        comment:[
+            {user:"竞赛小白",time:"2026-07-15 09:10",text:"终于找到零基础路线了，再也不盲目刷题了"},
+            {user:"建模大佬",time:"2026-07-14 20:05",text:"分工真的超级重要，队内吵架大多都是分工不明确"},
+            {user:"甜甜",time:"2026-07-13 14:22",text:"请问备赛大概需要准备多久比较合适"},
+            {user:"往届获奖选手",time:"2026-07-13 15:18",text:"全职准备两个月足够拿到不错奖项"},
+            {user:"阿浩",time:"2026-07-12 22:33",text:"已经拉好队友，按照这个路线开始学习"},
+        ]
+    },
+    3:{
+        title:"校内优秀导师选择避坑指南",
+        time:"2026-07-12",
+        tag:"导师推荐",
+        content:"在校选择指导老师一定要结合自身未来发展方向做决定。如果未来想长期参加各类学科竞赛、双创比赛，优先选择平时热心指导学生参赛、过往带出很多获奖队伍的老师；如果目标是考研深造、发表学术论文，就选择手握大量科研项目、论文产出数量多、学术资源丰富的导师。确定意向之后可以先查看老师个人主页研究方向，确认匹配自己兴趣，再礼貌主动联系沟通，不要盲目跟风选择热门导师。",
+        comment:[
+            {user:"考研党",time:"2026-07-12 13:11",text:"选对导师真的少走三年弯路"},
+            {user:"小琳",time:"2026-07-11 17:20",text:"之前选错导师天天打杂，根本学不到东西"},
+            {user:"风眠",time:"2026-07-10 20:44",text:"感谢分享，已经开始整理校内导师资料"},
+        ]
+    },
+    4:{
+        title:"暑期留校学习与社会实践如何平衡",
+        time:"2026-07-10",
+        tag:"校园生活",
+        content:"漫长暑假不用全部放松玩乐，也不用全天埋头苦学，合理分配时间性价比最高。可以拿出一半时间专心备战各类专业竞赛、等级证书考试，夯实专业能力；剩余时间积极报名参加专业对口社会实践、企业见习、短期实习等活动。一边提升校内成绩与竞赛履历，一边积累社会实战经验，双向充实自己，为之后大四求职就业、考研复试积累充足硬核履历。",
+        comment:[
+            {user:"留校选手",time:"2026-07-10 08:55",text:"这个安排太合理了，准备照着执行"},
+            {user:"乐乐",time:"2026-07-09 16:12",text:"暑期实习去哪里找比较靠谱呀"},
+            {user:"学姐",time:"2026-07-08 19:00",text:"优先学校就业群、学院推荐岗位最稳妥"},
+        ]
+    },
+    5:{
+        title:"计算机二级、Python等级考试备考攻略",
+        time:"2026-07-08",
+        tag:"证书备考",
+        content:"作为大数据管理专业学生，在校期间优先拿下实用性强的技能证书性价比极高。首推Python程序设计等级证书、数据分析工程师相关证书，其次可以考取计算机二级作为基础加分项。备考核心不要死记硬背理论知识点，以历年真题实操练习为主，多动手敲代码熟悉题型与操作流程。这些证书不仅能够轻松增加综合素质测评分数，评优评先占优势，同时也是未来求职简历上面很亮眼的基础加分项。",
+        comment:[
+            {user:"考证达人",time:"2026-07-08 12:33",text:"Python证书现在企业认可度越来越高了"},
+            {user:"小楠",time:"2026-07-07 15:44",text:"刷题多久能稳过呀"},
+            {user:"考过啦",time:"2026-07-06 21:20",text:"每天一小时坚持一个月基本稳过"},
+        ]
+    },
+    6:{
+        title:"大创项目选题方向与申报流程详解",
+        time:"2026-07-05",
+        tag:"项目申报",
+        content:"本专业学生申报大学生创新创业训练计划项目，选题尽量贴合专业特色更容易立项成功。优先选择资源环境大数据调研、校园智慧服务平台搭建、民生消费数据分析、低碳经济趋势调研、乡村数字服务等方向。整体申报流程简单易懂，组队人数控制在3-5人最佳，分工清晰项目完成效率更高。确定选题之后尽早主动联系对应领域专业导师帮忙修改申报书，有导师指导立项通过率会大幅提升。",
+        comment:[
+            {user:"项目组队中",time:"2026-07-05 14:10",text:"正在纠结选题，看完直接确定方向了"},
+            {user:"已经立项",time:"2026-07-04 18:22",text:"找导师指导真的太关键了，自己写漏洞很多"},
+            {user:"小希",time:"2026-07-03 20:11",text:"想问一下大创结项难度大不大"},
+        ]
+    },
+    7:{
+        title:"综测加分最全汇总，轻松拉高成绩排名",
+        time:"2026-07-03",
+        tag:"校园福利",
+        content:"在校想要提高综测分数、稳居专业前排，一定要摸清所有加分项目规则。学科类竞赛获奖、创新创业项目立项结项、各类职业技能等级证书、校级市级志愿服务活动、文体文艺比赛、班级学院学生工作等等全部都有对应加分。按照分值高低优先冲高分值项目，低分项目空余时间顺带完成即可。合理规划大学四年加分路线，轻松拿下奖学金、三好学生、优秀毕业生等各类荣誉称号。",
+        comment:[
+            {user:"奖学金冲冲冲",time:"2026-07-03 10:00",text:"收藏死！每年都对照这个攒分数"},
+            {user:"浩浩",time:"2026-07-02 17:33",text:"志愿时长加分上限是多少呀"},
+            {user:"班委学长",time:"2026-07-01 19:25",text:"学生干部加分很稳定，适合长期拿分"},
+        ]
+    },
+    8:{
+        title:"跨专业组队参赛优缺点交流",
+        time:"2026-07-01",
+        tag:"组队交流",
+        content:"参加大型综合性赛事时很多同学都会选择跨专业组队，这种组队模式优势十分明显：不同专业同学思维角度不一样，整体创意更加多元全面，文案、技术、策划、答辩各个岗位都能完美补齐。但同时也存在明显缺点，不同专业课程时间不一致很难统一备赛时间，专业知识存在壁垒沟通成本偏高。建议组队初期就明确好每个人固定分工、确定固定讨论时间，减少矛盾高效备赛。",
+        comment:[
+            {user:"跨队选手",time:"2026-07-01 11:22",text:"深有体会，时间真的太难凑齐了"},
+            {user:"安然",time:"2026-06-30 16:44",text:"但是成品质量确实比同专业组队更好"},
+        ]
+    },
+    9:{
+        title:"大数据专业实习渠道与面试经验分享",
+        time:"2026-06-28",
+        tag:"求职实习",
+        content:"大数据相关专业实习越早规划越占优势，大一大二可以优先参加校内组织的实训项目、校企联合训练营积累基础项目经验，不用急于外出实习。进入大三之后正式开始投递实习岗位，优先选择政企事业单位数据中心、互联网行业数据分析部门、科技类企业运维部门。提前整理好自己在校做过的课程项目、竞赛作品做成作品集，熟练掌握SQL数据查询、Python数据清洗与可视化，面试通过率会提升非常多。",
+        comment:[
+            {user:"大三找实习",time:"2026-06-28 09:33",text:"正愁不知道去哪找实习，太及时了"},
+            {user:"实习归来",time:"2026-06-27 20:10",text:"作品集真的是面试加分大杀器"},
+        ]
+    },
+    10:{
+        title:"考研择校｜大数据方向院校难度排行",
+        time:"2026-06-25",
+        tag:"考研升学",
+        content:"打算走考研路线深耕大数据相关专业的同学，择校一定要理性切勿盲目冲名校。目前国内大数据相关专业分为学术硕士与专业硕士两大类别，不同院校考试专业课、复试内容、录取分数线差距极大。优先结合自身文化课基础、数学水平、专业课掌握程度筛选目标院校，避开每年报考人数爆满的热门院校，稳妥划分冲、稳、保三个梯度院校，按部就班规划全年备考节奏，稳稳上岸远比盲目冲高更加重要。",
+        comment:[
+            {user:"27考研人",time:"2026-06-25 15:22",text:"大数据考研越来越卷了，择校一定要慎重"},
+            {user:"上岸学姐",time:"2026-06-24 18:11",text:"稳扎稳打选合适院校比硬冲名校幸福太多"},
+            {user:"阿远",time:"2026-06-23 21:00",text:"已经开始收集各校考试科目了"},
+            {user:"小夏",time:"2026-06-22 14:33",text:"想问专硕和学硕差别大吗"},
+            {user:"考研辅导学长",time:"2026-06-21 17:20",text:"专硕偏重实践，学硕偏重科研，看未来发展选择"},
+        ]
+    }
+};
+
+// 获取页面ID渲染内容
+let id = new URLSearchParams(location.search).get('id');
+let info = postData[id];
+let nowCommentList = [];
+if(info){
+    document.getElementById('dTitle').innerText = info.title;
+    document.getElementById('dTime').innerText = info.time;
+    document.getElementById('dTag').innerText = info.tag;
+    document.getElementById('dContent').innerText = info.content;
+    nowCommentList = [...info.comment];
+    renderComment();
+}
+
+// 渲染评论
+function renderComment(){
+    let html = '';
+    nowCommentList.forEach(item=>{
+        html += `
+        <div class="comment-item">
+            <div class="com-user">${item.user}</div>
+            <div class="com-time">${item.time}</div>
+            <div class="com-text">${item.text}</div>
+        </div>
+        `;
+    })
+    document.getElementById('commentBox').innerHTML = html;
+}
+
+// 新增发表评论
+function addComment(){
+    let val = document.getElementById('myComment').value.trim();
+    if(!val){
+        alert("请输入评论内容！");
+        return;
+    }
+    let newCom = {
+        user:"在校学生",
+        time:new Date().toLocaleString(),
+        text:val
+    };
+    nowCommentList.unshift(newCom);
+    renderComment();
+    document.getElementById('myComment').value = "";
+    alert("评论发布成功！");
+}
+</script>
+</body>
+</html>

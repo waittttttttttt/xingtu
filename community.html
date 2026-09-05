@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社区讨论 - 星途平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/3.3.0/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: 'Inter', system-ui, sans-serif;background-color: #f7f3ea;color: #111827;display: flex;min-height: 100vh;}
+        .sidebar {width: 250px;background-color: #111827;color: white;min-height: 100vh;padding: 24px 20px;display: flex;flex-direction: column;justify-content: space-between;flex-shrink: 0;}
+        .sidebar-logo {display: flex;align-items: center;gap: 10px;margin-bottom: 32px;}
+        .sidebar-logo .logo-mark {width: 34px;height: 34px;background-color: #ffffff;border-radius: 10px;display: flex;align-items: center;justify-content: center;color: #111827;font-weight: 700;font-size: 18px;}
+        .sidebar-logo .logo-text {font-size: 20px;font-weight: 700;letter-spacing: 0.5px;}
+        .nav-item {display: flex;align-items: center;gap: 12px;padding: 11px 14px;border-radius: 12px;color: #d1d5db;cursor: pointer;transition: 0.22s ease;margin-bottom: 8px;font-size: 14px;}
+        .nav-item:hover {background-color: #1f2937;color: #ffffff;}
+        .nav-item.active {background-color: #ffffff;color: #111827;font-weight: 600;}
+        .sidebar-bottom {margin-top: auto;padding-top: 24px;border-top: 1px solid #1f2937;}
+        .user-card {background-color: #1f2937;border-radius: 14px;padding: 14px;margin-bottom: 16px;}
+        .user-avatar {width: 42px;height: 42px;border-radius: 50%;background: linear-gradient(135deg, #fbbf24, #f97316);display: flex;align-items: center;justify-content: center;font-weight: 700;color: #111827;margin-bottom: 10px;}
+        .user-name {font-size: 15px;font-weight: 600;color: #ffffff;}
+        .user-role {font-size: 12px;color: #9ca3af;}
+        .main-content {flex: 1;padding: 24px 32px;overflow-y: auto;}
+        .top-bar {display: flex;justify-content: space-between;align-items: center;margin-bottom: 28px;}
+        .search-box {display: flex;align-items: center;background-color: #ffffff;border: 1px solid #e5e7eb;border-radius: 999px;padding: 10px 16px;width: 260px;}
+        .search-box i {color: #9ca3af;margin-right: 8px;}
+        .search-box input {border: none;outline: none;width: 100%;font-size: 14px;color: #111827;}
+        .top-actions {display: flex;align-items: center;gap: 12px;}
+        .icon-btn {width: 40px;height: 40px;border-radius: 50%;background-color: #ffffff;border: 1px solid #e5e7eb;display: flex;align-items: center;justify-content: center;color: #6b7280;cursor: pointer;transition: 0.2s ease;}
+        .icon-btn:hover {background-color: #f3f4f6;color: #111827;}
+        .page-title {margin-bottom: 24px;display:flex;justify-content:space-between;align-items:center;}
+        .page-title h1 {font-size: 26px;font-weight: 800;letter-spacing: 0.5px;margin-bottom: 6px;}
+        .page-title p {color: #6b7280;font-size: 15px;}
+        .publish-btn{background:#111827;color:#fff;padding:10px 20px;border-radius:12px;border:none;cursor:pointer;transition:0.2s;}
+        .publish-btn:hover{background:#27272a;}
+        .discuss-card {background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,0.06);transition:transform .2s;cursor:pointer;}
+        .discuss-card:hover {transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+        .dis-title {font-size:18px;font-weight:700;margin-bottom:8px;color:#111827;}
+        .dis-meta {font-size:13px;color:#666;margin-bottom:10px;}
+        .dis-content {font-size:14px;color:#333;line-height:1.6;}
+        .dis-tag {display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;margin-right:6px;background:#f0f7ff;color:#2374dd;}
+        .comment-num{color:#999;font-size:13px;margin-left:10px;}
+        /* 发布弹窗样式 */
+        .mask{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:none;align-items:center;justify-content:center;z-index:999;}
+        .publish-box{width:500px;background:#fff;border-radius:16px;padding:25px;}
+        .publish-box h3{margin-bottom:20px;font-size:20px;}
+        .inp-item{margin-bottom:15px;}
+        .inp-item label{display:block;margin-bottom:6px;font-size:14px;color:#333;}
+        .inp-item input,.inp-item textarea{width:100%;border:1px solid #ddd;border-radius:8px;padding:10px;outline:none;}
+        .btn-group{display:flex;gap:15px;justify-content:flex-end;margin-top:20px;}
+        .cancel{border:1px solid #ccc;background:#fff;padding:8px 20px;border-radius:8px;cursor:pointer;}
+        .submit{background:#111827;color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-logo">
+                <div class="logo-mark">星</div>
+                <div class="logo-text">星途平台</div>
+            </div>
+            <nav>
+                <div class="nav-item" onclick="location.href='index.html'">
+                    <i class="fas fa-th-large"></i><span>仪表盘</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-info.html'">
+                    <i class="fas fa-newspaper"></i><span>竞赛资讯</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-team.html'">
+                    <i class="fas fa-users"></i><span>竞赛组队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='teacher.html'">
+                    <i class="fas fa-user-tie"></i><span>导师团队</span>
+                </div>
+                <div class="nav-item active" onclick="location.href='community.html'">
+                    <i class="fas fa-comments"></i><span>社区讨论</span>
+                </div>
+                <div class="nav-item" onclick="location.href='plan.html'">
+                    <i class="fas fa-lightbulb"></i><span>升学规划</span>
+                </div>
+                <div class="nav-item" onclick="location.href='setting.html'">
+                    <i class="fas fa-cog"></i><span>设置</span>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="user-card">
+                <div class="user-avatar">S</div>
+                <div class="user-name">Student</div>
+                <div class="user-role">大数据管理与应用 · 大二</div>
+            </div>
+            <div class="nav-item" onclick="logoutSys()">
+                <i class="fas fa-sign-out-alt"></i><span>退出登录</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="comSearch" placeholder="搜索学习、竞赛、生活相关话题" oninput="searchPost()">
+            </div>
+            <div class="top-actions">
+                <div class="icon-btn"><i class="fas fa-envelope"></i></div>
+                <div class="icon-btn"><i class="fas fa-bell"></i></div>
+                <div class="icon-btn"><i class="fas fa-cog"></i></div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <div>
+                <h1>校园社区讨论区</h1>
+                <p>交流学习心得、竞赛经验、选课技巧、日常答疑，互通校园各类实用信息</p>
+            </div>
+            <button class="publish-btn" onclick="openPublish()">
+                <i class="fas fa-plus"></i> 发布新帖子
+            </button>
+        </div>
+
+        <div id="postList">
+            <div class="discuss-card" data-id="1" onclick="goDetail(1)">
+                <div class="dis-title">大数据管理专业选课优先级推荐</div>
+                <div class="dis-meta">发布时间：2026-07-17 <span class="dis-tag">学习干货</span><span class="comment-num"><i class="far fa-comment"></i> 12条评论</span></div>
+                <div class="dis-content">大二大三优先选修数据分析、数据挖掘、Python应用、自然资源大数据相关课程，不仅贴合本专业培养方案，还能直接用于竞赛项目与毕业设计，实用性极强，尽量避开水课合理规划学分。</div>
+            </div>
+
+            <div class="discuss-card" data-id="2" onclick="goDetail(2)">
+                <div class="dis-title">数模竞赛零基础入门学习路线分享</div>
+                <div class="dis-meta">发布时间：2026-07-15 <span class="dis-tag">竞赛经验</span><span class="comment-num"><i class="far fa-comment"></i> 18条评论</span></div>
+                <div class="dis-content">零基础先学习基础建模思路，再掌握论文写作格式，熟练使用Excel、SPSS做基础数据分析，后期进阶学习Python建模，组队分工明确更容易出成绩，暑期是最佳备赛时间段。</div>
+            </div>
+
+            <div class="discuss-card" data-id="3" onclick="goDetail(3)">
+                <div class="dis-title">校内优秀导师选择避坑指南</div>
+                <div class="dis-meta">发布时间：2026-07-12 <span class="dis-tag">导师推荐</span><span class="comment-num"><i class="far fa-comment"></i> 9条评论</span></div>
+                <div class="dis-content">想走竞赛路线优先选择指导学生赛事经验丰富的老师，想深耕科研考研选择科研项目多、论文产出高的导师，提前查看老师研究方向，匹配自身发展方向再主动联系。</div>
+            </div>
+
+            <div class="discuss-card" data-id="4" onclick="goDetail(4)">
+                <div class="dis-title">暑期留校学习与社会实践如何平衡</div>
+                <div class="dis-meta">发布时间：2026-07-10 <span class="dis-tag">校园生活</span><span class="comment-num"><i class="far fa-comment"></i> 7条评论</span></div>
+                <div class="dis-content">暑期可以一半时间备战各类竞赛，一半时间参与专业相关社会实践，积累实习经历，既提升专业能力，又丰富个人履历，为日后就业与考研打下双重基础。</div>
+            </div>
+
+            <div class="discuss-card" data-id="5" onclick="goDetail(5)">
+                <div class="dis-title">计算机二级、Python等级考试备考攻略</div>
+                <div class="dis-meta">发布时间：2026-07-08 <span class="dis-tag">证书备考</span><span class="comment-num"><i class="far fa-comment"></i> 15条评论</span></div>
+                <div class="dis-content">大数据专业优先考取Python程序设计证书、数据分析相关证书，备考以真题实操为主，多动手敲代码练习，证书不仅能加综测分数，也是求职基础加分项。</div>
+            </div>
+
+            <div class="discuss-card" data-id="6" onclick="goDetail(6)">
+                <div class="dis-title">大创项目选题方向与申报流程详解</div>
+                <div class="dis-meta">发布时间：2026-07-05 <span class="dis-tag">项目申报</span><span class="comment-num"><i class="far fa-comment"></i> 21条评论</span></div>
+                <div class="dis-content">本专业适合选择资源大数据、校园智慧服务、民生数据分析、低碳经济调研等选题，申报流程简单，组队人数3-5人最佳，提前联系导师指导立项通过率更高。</div>
+            </div>
+
+            <div class="discuss-card" data-id="7" onclick="goDetail(7)">
+                <div class="dis-title">综测加分最全汇总，轻松拉高成绩排名</div>
+                <div class="dis-meta">发布时间：2026-07-03 <span class="dis-tag">校园福利</span><span class="comment-num"><i class="far fa-comment"></i> 25条评论</span></div>
+                <div class="dis-content">学科竞赛、创新创业项目、技能证书、志愿服务、文体活动均可加分，合理规划每年加分项目，轻松评定奖学金、评优评先，提升在校综合排名。</div>
+            </div>
+
+            <div class="discuss-card" data-id="8" onclick="goDetail(8)">
+                <div class="dis-title">跨专业组队参赛优缺点交流</div>
+                <div class="dis-meta">发布时间：2026-07-01 <span class="dis-tag">组队交流</span><span class="comment-num"><i class="far fa-comment"></i> 11条评论</span></div>
+                <div class="dis-content">跨专业组队优势是思维多元、分工全面，缺点是时间难以统一、专业知识存在壁垒，建议提前明确分工与备赛时间，高效配合完成参赛作品。</div>
+            </div>
+
+            <div class="discuss-card" data-id="9" onclick="goDetail(9)">
+                <div class="dis-title">大数据专业实习渠道与面试经验分享</div>
+                <div class="dis-meta">发布时间：2026-06-28 <span class="dis-tag">求职实习</span><span class="comment-num"><i class="far fa-comment"></i> 14条评论</span></div>
+                <div class="dis-content">低年级可以先参加校内实训项目积累经验，大三开始投递互联网、政企数据部门实习，提前整理好项目作品集，熟练掌握SQL、Python数据分析会大幅提高面试通过率。</div>
+            </div>
+
+            <div class="discuss-card" data-id="10" onclick="goDetail(10)">
+                <div class="dis-title">考研择校｜大数据方向院校难度排行</div>
+                <div class="dis-meta">发布时间：2026-06-25 <span class="dis-tag">考研升学</span><span class="comment-num"><i class="far fa-comment"></i> 30条评论</span></div>
+                <div class="dis-content">大数据相关专业考研分为学硕与专硕，不同院校考试科目差异较大，优先结合自身基础选择院校，避开扎堆热门院校，稳妥规划备考节奏更容易上岸。</div>
+            </div>
+        </div>
+
+        <!-- 发布帖子弹窗 -->
+        <div class="mask" id="publishMask">
+            <div class="publish-box">
+                <h3>发布新讨论帖子</h3>
+                <div class="inp-item">
+                    <label>帖子标题</label>
+                    <input type="text" id="postTitle" placeholder="请输入帖子标题">
+                </div>
+                <div class="inp-item">
+                    <label>帖子分类</label>
+                    <input type="text" id="postTag" placeholder="例如：学习干货、竞赛经验">
+                </div>
+                <div class="inp-item">
+                    <label>帖子内容</label>
+                    <textarea rows="5" id="postContent" placeholder="写下你的经验、疑问与心得..."></textarea>
+                </div>
+                <div class="btn-group">
+                    <button class="cancel" onclick="closePublish()">取消</button>
+                    <button class="submit" onclick="submitPost()">立即发布</button>
+                </div>
+            </div>
+        </div>
+    </main>
+<script>
+// 登录拦截
+if(!localStorage.getItem('isLogin')){
+    window.location.href="login.html";
+}
+// 退出登录
+function logoutSys(){
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('userName');
+    alert('已成功退出登录');
+    window.location.href="login.html";
+}
+// 帖子搜索
+function searchPost(){
+    let key = document.getElementById('comSearch').value.toLowerCase().trim();
+    let cards = document.querySelectorAll('.discuss-card');
+    cards.forEach(item=>{
+        let text = item.innerText.toLowerCase();
+        item.style.display = text.includes(key) ? 'block' : 'none';
+    })
+}
+// 跳转帖子详情
+function goDetail(id){
+    location.href = `post_detail.html?id=${id}`;
+}
+// 打开发布弹窗
+function openPublish(){
+    document.getElementById('publishMask').style.display = 'flex';
+}
+// 关闭发布弹窗
+function closePublish(){
+    document.getElementById('publishMask').style.display = 'none';
+}
+// 提交发布
+function submitPost(){
+    let title = document.getElementById('postTitle').value.trim();
+    let tag = document.getElementById('postTag').value.trim();
+    let content = document.getElementById('postContent').value.trim();
+    if(!title||!tag||!content){
+        alert('请填写完整帖子信息');
+        return;
+    }
+    alert('发布成功！');
+    closePublish();
+    location.reload();
+}
+</script>
+</body>
+</html>

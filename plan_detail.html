@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>规划详情 - 星途平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/3.3.0/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: 'Inter', system-ui, sans-serif;background-color: #f7f3ea;color: #111827;display: flex;min-height: 100vh;}
+        .sidebar {width: 250px;background-color: #111827;color: white;min-height: 100vh;padding: 24px 20px;display: flex;flex-direction: column;justify-content: space-between;flex-shrink: 0;}
+        .sidebar-logo {display: flex;align-items: center;gap: 10px;margin-bottom: 32px;}
+        .sidebar-logo .logo-mark {width: 34px;height: 34px;background-color: #ffffff;border-radius: 10px;display: flex;align-items: center;justify-content: center;color: #111827;font-weight: 700;font-size: 18px;}
+        .sidebar-logo .logo-text {font-size: 20px;font-weight: 700;letter-spacing: 0.5px;}
+        .nav-item {display: flex;align-items: center;gap: 12px;padding: 11px 14px;border-radius: 12px;color: #d1d5db;cursor: pointer;transition: 0.22s ease;margin-bottom: 8px;font-size: 14px;}
+        .nav-item:hover {background-color: #1f2937;color: #ffffff;}
+        .nav-item.active {background-color: #ffffff;color: #111827;font-weight: 600;}
+        .sidebar-bottom {margin-top: auto;padding-top: 24px;border-top: 1px solid #1f2937;}
+        .user-card {background-color: #1f2937;border-radius: 14px;padding: 14px;margin-bottom: 16px;}
+        .user-avatar {width: 42px;height: 42px;border-radius: 50%;background: linear-gradient(135deg, #fbbf24, #f97316);display: flex;align-items: center;justify-content: center;font-weight: 700;color: #111827;margin-bottom: 10px;}
+        .user-name {font-size: 15px;font-weight: 600;color: #ffffff;}
+        .user-role {font-size: 12px;color: #9ca3af;}
+        .main-content {flex: 1;padding: 24px 32px;overflow-y: auto;}
+        .back-btn{margin-bottom:20px;cursor:pointer;color:#3671c9;font-size:15px;}
+        .detail-box{background:#fff;border-radius:16px;padding:35px;box-shadow:0 4px 14px rgba(0,0,0,0.06);}
+        .detail-title{font-size:24px;font-weight:bold;margin-bottom:15px;line-height:1.4;}
+        .detail-tag{display:inline-block;padding:4px 12px;background:#eef4ff;color:#3671c9;border-radius:8px;font-size:13px;margin-bottom:25px;}
+        .detail-text{font-size:15px;line-height:1.9;color:#333;}
+        .detail-text p{margin-bottom:16px;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-logo">
+                <div class="logo-mark">星</div>
+                <div class="logo-text">星途平台</div>
+            </div>
+            <nav>
+                <div class="nav-item" onclick="location.href='index.html'">
+                    <i class="fas fa-th-large"></i><span>仪表盘</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-info.html'">
+                    <i class="fas fa-newspaper"></i><span>竞赛资讯</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-team.html'">
+                    <i class="fas fa-users"></i><span>竞赛组队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='teacher.html'">
+                    <i class="fas fa-user-tie"></i><span>导师团队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='community.html'">
+                    <i class="fas fa-comments"></i><span>社区讨论</span>
+                </div>
+                <div class="nav-item active" onclick="location.href='plan.html'">
+                    <i class="fas fa-lightbulb"></i><span>升学规划</span>
+                </div>
+                <div class="nav-item" onclick="location.href='setting.html'">
+                    <i class="fas fa-cog"></i><span>设置</span>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="user-card">
+                <div class="user-avatar">S</div>
+                <div class="user-name">Student</div>
+                <div class="user-role">大数据管理与应用 · 大二</div>
+            </div>
+            <div class="nav-item" onclick="logoutSys()">
+                <i class="fas fa-sign-out-alt"></i><span>退出登录</span>
+            </div>
+        </div>
+    </aside>
+    <main class="main-content">
+        <div class="back-btn" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i> 返回升学规划列表
+        </div>
+        <div class="detail-box">
+            <h2 class="detail-title" id="pTitle"></h2>
+            <span class="detail-tag" id="pTag"></span>
+            <div class="detail-text" id="pContent"></div>
+        </div>
+    </main>
+<script>
+if(!localStorage.getItem('isLogin')){
+    window.location.href="login.html";
+}
+function logoutSys(){
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('userName');
+    alert('已退出登录');
+    location.href='login.html';
+}
+
+// 全套完整规划详情内容
+const planData = {
+    1:{
+        title:"大数据管理专业考研主流方向",
+        tag:"考研择校",
+        content:`
+        <p>大数据管理与应用专业属于经管交叉类专业，考研选择面十分宽泛，不用局限单一赛道。</p>
+        <p>1.管理学方向：管理科学与工程、工程管理、信息管理，考试难度适中，专业课贴合本科所学，上手最快。</p>
+        <p>2.数据技术方向：数据科学与大数据技术、人工智能应用、商务数据分析，就业薪资偏高，适合喜欢技术类同学。</p>
+        <p>3.经济金融方向：应用经济学、数字经济、产业经济学，适合未来想进入金融、投行、市场行业发展。</p>
+        <p>4.特色优势方向：自然资源大数据、生态经济、国土空间规划，贴合本校特色专业，择校备考更有优势。</p>
+        <p>择校建议：二本、民办院校优先选择双非财经类、理工类院校稳妥上岸；基础较好可冲刺双一流院校经管学院。</p>
+        `
+    },
+    2:{
+        title:"本科保研完整必备条件梳理",
+        tag:"保研攻略",
+        content:`
+        <p>保研是本科最优升学路径，越早布局成功率越高，大二启动规划刚刚好。</p>
+        <p>1.硬性成绩：专业综合绩点稳居年级前15%以内，无挂科记录，核心专业课分数尽量拉高。</p>
+        <p>2.竞赛加分：互联网+、挑战杯、数学建模、市场调研大赛等国家级赛事获奖含金量最高。</p>
+        <p>3.科研经历：主持或核心参与大创项目、校级纵向课题，跟随导师完成调研项目。</p>
+        <p>4.学术成果：以第一或第二作者发表普刊、会议论文，有专利、软著更加分。</p>
+        <p>5.课外履历：优秀学生干部、校级以上荣誉称号、社会实践先进个人等均可丰富简历。</p>
+        <p>备注：保研分为本校保研与外校推免，提前收集目标院校夏令营、预推免通知，及时投递材料。</p>
+        `
+    },
+    3:{
+        title:"专业对口优质就业发展方向",
+        tag:"就业求职",
+        content:`
+        <p>本专业属于复合型热门专业，市场需求量大，就业选择多元稳定。</p>
+        <p>1.数据类岗位：大数据分析师、数据专员、数据运营、用户行为分析，集中在互联网、电商、科技公司。</p>
+        <p>2.政企文职：政务数据整理、统计局数据分析、事业单位行政运营、资源规划助理。</p>
+        <p>3.市场商务类：市场调研、行业数据分析、品牌运营、商务策划，适合性格外向擅长沟通的同学。</p>
+        <p>4.金融行业：银行数据后台、保险行业数据分析、风控数据整理，工作轻松福利待遇完善。</p>
+        <p>5.教育教辅方向：培训机构数据分析讲师、专业实训助教，适合喜欢稳定轻松工作人群。</p>
+        <p>整体优势：不局限纯技术也不局限纯文职，文理兼备，转行容错率极高。</p>
+        `
+    },
+    4:{
+        title:"大学四年分阶段学习规划",
+        tag:"年级规划",
+        content:`
+        <p>大一适应期：认真学习高数、英语、计算机基础、管理学原理，稳住基础分数，熟悉校园环境与专业培养方案，加入1-2个优质社团拓展人脉，不要盲目跟风玩乐荒废时光。</p>
+        <p>大二提升期：主攻专业核心课程，熟练掌握Excel、SPSS、Python基础操作，开始组队参加校级、省级竞赛，考取计算机二级、四六级证书，确定未来大致发展方向。</p>
+        <p>大三决胜期：全力冲击高含金量竞赛与科研项目，利用寒暑假进入企业实习，明确敲定考研、就业、考公其中一条主路线，开始系统性复习备考。</p>
+        <p>大四收尾期：完成毕业论文与毕业设计，考研党全力冲刺初试复试，就业党全力投递校招春招岗位，考公党专注刷题参加国考省考，顺利完成毕业全部流程。</p>
+        `
+    },
+    5:{
+        title:"高含金量证书考取顺序推荐",
+        tag:"证书备考",
+        content:`
+        <p>大一必拿：英语四级、普通话二级甲等，零基础轻松通关，奠定基础加分项。</p>
+        <p>大二优先：英语六级、计算机二级、Python程序设计证书，贴合专业学习内容，备考难度低。</p>
+        <p>大三进阶：数据分析工程师、市场分析师、初级经济师，职业类证书直接对接求职岗位。</p>
+        <p>大四备选：教师资格证、人力资源管理师，作为转行、备选职业后路。</p>
+        <p>避雷提醒：避免盲目报考营养师、全媒体运营等认可度低、实用性差的证书，浪费时间与金钱。</p>
+        <p>使用用途：所有证书均可计入综合素质测评加分，助力奖学金、评优评先、入党积极分子评选。</p>
+        `
+    },
+    6:{
+        title:"寒暑假高质量实习规划建议",
+        tag:"实习实践",
+        content:`
+        <p>大一暑假：以自学提升为主，熟练专业办公软件与数据分析基础工具，多看行业调研报告，不用急于外出实习。</p>
+        <p>大二暑假：优先争取校内科研助理、学院实验室助理、本地中小企业基础数据整理岗位，积累基础职场经验。</p>
+        <p>大三寒假：选择短期线上实习、行业调研实习，低成本积累项目经历，丰富简历内容。</p>
+        <p>大三暑假：冲刺一线二线城市正规企业正式实习，优先选择数据部门、运营部门、政企实习岗位，争取实习转正机会。</p>
+        <p>实习原则：拒绝发传单、服务员等无意义体力实习，所有实习经历尽量和本专业挂钩，提升简历含金量。</p>
+        `
+    },
+    7:{
+        title:"跨专业升学备考注意事项",
+        tag:"跨考指南",
+        content:`
+        <p>1.专业选择原则：尽量选择经管类、文科类、泛计算机类相近专业，降低备考难度，避开临床医学、法学、机械等跨度极大专业。</p>
+        <p>2.前期调研：提前查询目标专业考试科目、参考书目、历年分数线、报录比，避开内卷严重热门专业。</p>
+        <p>3.学习安排：保证本专业课业顺利完成不挂科，利用课余整块时间自学跨考专业课，合理分配公共课与专业课复习时长。</p>
+        <p>4.资料获取：联系上岸学长学姐购买复习笔记、真题题库，少走复习弯路。</p>
+        <p>5.风险规避：预留保底院校，不要全部冲刺顶尖院校，防止一战失利无学可上。</p>
+        <p>6.复试优势：利用本科大数据专业数据分析能力，在复试当中形成自身独特竞争亮点。</p>
+        `
+    },
+    8:{
+        title:"公职类考试报考优势与方向",
+        tag:"考公选调",
+        content:`
+        <p>大数据管理专业属于公职考试热门适配专业，岗位选择极多，限制少竞争压力更小。</p>
+        <p>国考可报岗位：国家统计局、海关数据统计岗、税务系统数据分析、网信办信息管理岗位。</p>
+        <p>省考可报岗位：各地政务服务大数据中心、自然资源局、市场监督管理局、发改局经济调研岗。</p>
+        <p>事业单位：各地大数据研究院、智慧城市管理中心、融媒体数据运营中心。</p>
+        <p>报考优势：相比汉语言、财会等万人岗，本专业报考人数偏少，进面分数线更低，上岸概率更大。</p>
+        <p>备考建议：大二大三开始积累时政常识，大四集中刷题备考，同时兼顾选调生报考资格条件。</p>
+        `
+    },
+    9:{
+        title:"科研论文写作与发表基础指南",
+        tag:"学术科研",
+        content:`
+        <p>本科论文不用追求高深创新，立足校园调研、行业数据分析即可轻松完成。</p>
+        <p>选题方向：校园消费数据分析、区域资源调研、线上用户行为分析、乡村数字建设调研等易落地选题。</p>
+        <p>写作流程：确定主题→收集整理调研数据→运用软件做数据分析→梳理论点框架→规范排版撰写全文。</p>
+        <p>发表渠道：校内学报、普通省级期刊、综合类学术期刊，价格亲民审核速度快，适合本科生发表。</p>
+        <p>加分用处：综测大幅度加分、保研简历加分、评优评先优先考虑、毕业评优优秀毕业论文评选。</p>
+        <p>入门建议：先多看同方向本科毕业论文，模仿写作格式与行文思路，慢慢形成自己写作风格。</p>
+        `
+    },
+    10:{
+        title:"考研全年时间节点备考计划表",
+        tag:"时间安排",
+        content:`
+        <p>1-2月：确定目标院校与专业，收集参考书、历年真题、上岸经验贴，做好全年复习规划。</p>
+        <p>3-6月基础阶段：主攻英语单词、长难句，数学基础知识梳理，专业课通读教材搭建知识框架。</p>
+        <p>7-9月强化阶段：大量刷题训练解题思路，专业课深度背诵梳理重难点，开始政治第一轮学习。</p>
+        <p>10-11月冲刺阶段：整套真题模拟训练，把控做题速度，集中背诵政治大题与专业课核心考点。</p>
+        <p>12月考前冲刺：复盘错题查漏补缺，调整作息稳住心态，适应考试时间节奏。</p>
+        <p>次年2-3月查询初试成绩，准备复试简历、专业课问答、中英文自我介绍，全力备战复试考核。</p>
+        <p>复试落榜及时关注调剂系统，抓住调剂机会争取顺利上岸。</p>
+        `
+    },
+    11:{
+        title:"本校导师科研方向与选择技巧",
+        tag:"导师选择",
+        content:`
+        <p>选择校内导师优先匹配自身发展路线，选对导师少走无数弯路。</p>
+        <p>竞赛路线导师：优先选择常年带队参加互联网+、挑战杯、数模比赛的老师，指导经验足，获奖率高。</p>
+        <p>科研考研路线导师：选择发表论文数量多、手握纵向课题、经常带学生做学术项目的资深导师。</p>
+        <p>就业实践路线导师：偏向企业合作项目、行业调研、校企实训项目导师，积累实战资源更多。</p>
+        <p>联系导师礼仪：通过学院官网获取邮箱，发送简洁正式自荐邮件，写明自身优势、学习规划与意向方向。</p>
+        <p>避坑提醒：避开常年放养学生、只安排杂活不传授知识、态度冷淡不愿指导学生的导师。</p>
+        `
+    },
+    12:{
+        title:"复试面试常见问题与应答思路",
+        tag:"面试技巧",
+        content:`
+        <p>一、自我介绍模板：1分钟简洁版+3分钟完整版提前背熟，突出成绩、竞赛、项目、实习四大亮点。</p>
+        <p>二、专业基础问答：熟练背诵本科核心课程知识点，了解行业前沿基础热点，做到有问能答。</p>
+        <p>三、个人规划问答：清晰说出短期读研计划与长期职业发展方向，态度真诚务实。</p>
+        <p>四、压力型问题：遇到不会题目诚实说明，表达后续主动学习态度，不要胡乱编造答案。</p>
+        <p>五、英语问答：准备常见日常英语问答、专业简单英语词汇问答，保证发音流利自然。</p>
+        <p>六、礼仪细节：着装干净整洁、进门问好、离场致谢，整体沉稳大方，留给面试官良好印象。</p>
+        `
+    }
+};
+
+// 渲染页面内容
+let pid = new URLSearchParams(location.search).get('pid');
+let info = planData[pid];
+if(info){
+    document.getElementById('pTitle').innerText = info.title;
+    document.getElementById('pTag').innerText = info.tag;
+    document.getElementById('pContent').innerHTML = info.content;
+}
+</script>
+</body>
+</html>

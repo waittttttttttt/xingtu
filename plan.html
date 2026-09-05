@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>升学规划 - 星途平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/3.3.0/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: 'Inter', system-ui, sans-serif;background-color: #f7f3ea;color: #111827;display: flex;min-height: 100vh;}
+        .sidebar {width: 250px;background-color: #111827;color: white;min-height: 100vh;padding: 24px 20px;display: flex;flex-direction: column;justify-content: space-between;flex-shrink: 0;}
+        .sidebar-logo {display: flex;align-items: center;gap: 10px;margin-bottom: 32px;}
+        .sidebar-logo .logo-mark {width: 34px;height: 34px;background-color: #ffffff;border-radius: 10px;display: flex;align-items: center;justify-content: center;color: #111827;font-weight: 700;font-size: 18px;}
+        .sidebar-logo .logo-text {font-size: 20px;font-weight: 700;letter-spacing: 0.5px;}
+        .nav-item {display: flex;align-items: center;gap: 12px;padding: 11px 14px;border-radius: 12px;color: #d1d5db;cursor: pointer;transition: 0.22s ease;margin-bottom: 8px;font-size: 14px;}
+        .nav-item:hover {background-color: #1f2937;color: #ffffff;}
+        .nav-item.active {background-color: #ffffff;color: #111827;font-weight: 600;}
+        .sidebar-bottom {margin-top: auto;padding-top: 24px;border-top: 1px solid #1f2937;}
+        .user-card {background-color: #1f2937;border-radius: 14px;padding: 14px;margin-bottom: 16px;}
+        .user-avatar {width: 42px;height: 42px;border-radius: 50%;background: linear-gradient(135deg, #fbbf24, #f97316);display: flex;align-items: center;justify-content: center;font-weight: 700;color: #111827;margin-bottom: 10px;}
+        .user-name {font-size: 15px;font-weight: 600;color: #ffffff;}
+        .user-role {font-size: 12px;color: #9ca3af;}
+        .main-content {flex: 1;padding: 24px 32px;overflow-y: auto;}
+        .top-bar {display: flex;justify-content: space-between;align-items: center;margin-bottom: 28px;}
+        .search-box {display: flex;align-items: center;background-color: #ffffff;border: 1px solid #e5e7eb;border-radius: 999px;padding: 10px 16px;width: 260px;}
+        .search-box i {color: #9ca3af;margin-right: 8px;}
+        .search-box input {border: none;outline: none;width: 100%;font-size: 14px;color: #111827;}
+        .top-actions {display: flex;align-items: center;gap: 12px;}
+        .icon-btn {width: 40px;height: 40px;border-radius: 50%;background-color: #ffffff;border: 1px solid #e5e7eb;display: flex;align-items: center;justify-content: center;color: #6b7280;cursor: pointer;transition: 0.2s ease;}
+        .icon-btn:hover {background-color: #f3f4f6;color: #111827;}
+        .page-title {margin-bottom: 24px;}
+        .page-title h1 {font-size: 26px;font-weight: 800;letter-spacing: 0.5px;margin-bottom: 6px;}
+        .page-title p {color: #6b7280;font-size: 15px;}
+        .plan-card {background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,0.06);transition:transform .2s;cursor: pointer;}
+        .plan-card:hover {transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+        .plan-title {font-size:18px;font-weight:700;margin-bottom:8px;color:#111827;}
+        .plan-content {font-size:14px;color:#333;line-height:1.7;}
+        .tip-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;background:#eef4ff;color:#3671c9;margin-top:8px;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-logo">
+                <div class="logo-mark">星</div>
+                <div class="logo-text">星途平台</div>
+            </div>
+            <nav>
+                <div class="nav-item" onclick="location.href='index.html'">
+                    <i class="fas fa-th-large"></i><span>仪表盘</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-info.html'">
+                    <i class="fas fa-newspaper"></i><span>竞赛资讯</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-team.html'">
+                    <i class="fas fa-users"></i><span>竞赛组队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='teacher.html'">
+                    <i class="fas fa-user-tie"></i><span>导师团队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='community.html'">
+                    <i class="fas fa-comments"></i><span>社区讨论</span>
+                </div>
+                <div class="nav-item active" onclick="location.href='plan.html'">
+                    <i class="fas fa-lightbulb"></i><span>升学规划</span>
+                </div>
+                <div class="nav-item" onclick="location.href='setting.html'">
+                    <i class="fas fa-cog"></i><span>设置</span>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="user-card">
+                <div class="user-avatar">S</div>
+                <div class="user-name">Student</div>
+                <div class="user-role">大数据管理与应用 · 大二</div>
+            </div>
+            <div class="nav-item" onclick="logoutSys()">
+                <i class="fas fa-sign-out-alt"></i><span>退出登录</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="planSearch" placeholder="查询考研、保研、就业、考证规划" oninput="searchPlan()">
+            </div>
+            <div class="top-actions">
+                <div class="icon-btn"><i class="fas fa-envelope"></i></div>
+                <div class="icon-btn"><i class="fas fa-bell"></i></div>
+                <div class="icon-btn"><i class="fas fa-cog"></i></div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h1>学业升学发展规划</h1>
+            <p>涵盖考研方向、保研条件、就业选择、证书考取、实习安排全流程发展指南</p>
+        </div>
+
+        <div id="planList">
+            <div class="plan-card" data-pid="1" onclick="goPlanDetail(1)">
+                <div class="plan-title">大数据管理专业考研主流方向</div>
+                <div class="plan-content">本专业考研可选择管理科学与工程、数据科学与大数据技术、应用经济学、自然资源管理、商务智能等方向，专业课以管理学、统计学、数据分析为主。</div>
+                <span class="tip-tag">考研择校</span>
+            </div>
+
+            <div class="plan-card" data-pid="2" onclick="goPlanDetail(2)">
+                <div class="plan-title">本科保研完整必备条件梳理</div>
+                <div class="plan-content">想要获得保研资格，首先保持专业高绩点排名，积极参与国家级学科竞赛拿下奖项，发表学术论文，参与各类科研项目积累资历。</div>
+                <span class="tip-tag">保研攻略</span>
+            </div>
+
+            <div class="plan-card" data-pid="3" onclick="goPlanDetail(3)">
+                <div class="plan-title">专业对口优质就业发展方向</div>
+                <div class="plan-content">毕业后可从事大数据分析师、数据运营、市场调研专员、资源数据分析、企业行政运营等岗位，适配行业广，稳定性强。</div>
+                <span class="tip-tag">就业求职</span>
+            </div>
+
+            <div class="plan-card" data-pid="4" onclick="goPlanDetail(4)">
+                <div class="plan-title">大学四年分阶段学习规划</div>
+                <div class="plan-content">大一夯实基础课程，大二深耕专业课+入门竞赛，大三确定发展路线，大四完成毕设全力冲刺升学或校招求职。</div>
+                <span class="tip-tag">年级规划</span>
+            </div>
+
+            <div class="plan-card" data-pid="5" onclick="goPlanDetail(5)">
+                <div class="plan-title">高含金量证书考取顺序推荐</div>
+                <div class="plan-content">按照难易与实用度排序考取证书，避开无用证书，优先拿下在校刚需、求职加分、综测加分三类核心证书。</div>
+                <span class="tip-tag">证书备考</span>
+            </div>
+
+            <div class="plan-card" data-pid="6" onclick="goPlanDetail(6)">
+                <div class="plan-title">寒暑假高质量实习规划建议</div>
+                <div class="plan-content">分年级精准规划寒暑假去向，拒绝无效打杂实习，每一段实习都贴合自身未来发展路线，积累硬核项目经历。</div>
+                <span class="tip-tag">实习实践</span>
+            </div>
+
+            <div class="plan-card" data-pid="7" onclick="goPlanDetail(7)">
+                <div class="plan-title">跨专业升学备考注意事项</div>
+                <div class="plan-content">跨考前期调研、专业课自学、时间分配、风险规避全讲解，适合想更换发展赛道的同学参考学习。</div>
+                <span class="tip-tag">跨考指南</span>
+            </div>
+
+            <div class="plan-card" data-pid="8" onclick="goPlanDetail(8)">
+                <div class="plan-title">公职类考试报考优势与方向</div>
+                <div class="plan-content">大数据专业适配公务员、事业单位热门岗位汇总，报考条件、考试内容、上岸难度、岗位薪资待遇全面分析。</div>
+                <span class="tip-tag">考公选调</span>
+            </div>
+
+            <div class="plan-card" data-pid="9" onclick="goPlanDetail(9)">
+                <div class="plan-title">科研论文写作与发表基础指南</div>
+                <div class="plan-content">本科论文写作流程、选题技巧、数据处理、期刊选择、发表流程详解，用于综测、保研、评优都十分实用。</div>
+                <span class="tip-tag">学术科研</span>
+            </div>
+
+            <div class="plan-card" data-pid="10" onclick="goPlanDetail(10)">
+                <div class="plan-title">考研全年时间节点备考计划表</div>
+                <div class="plan-content">从年初预习、基础、强化、冲刺到复试调剂，一整年完整备考时间轴，精准把控每一个复习阶段。</div>
+                <span class="tip-tag">时间安排</span>
+            </div>
+
+            <div class="plan-card" data-pid="11" onclick="goPlanDetail(11)">
+                <div class="plan-title">本校导师科研方向与选择技巧</div>
+                <div class="plan-content">梳理校内优秀导师研究领域、带学生风格、项目资源，教你如何礼貌联系导师、确定跟随学习方向。</div>
+                <span class="tip-tag">导师选择</span>
+            </div>
+
+            <div class="plan-card" data-pid="12" onclick="goPlanDetail(12)">
+                <div class="plan-title">复试面试常见问题与应答思路</div>
+                <div class="plan-content">考研复试、保研面试、求职面试高频问题整理，自我介绍、专业问答、压力问答万能回答模板。</div>
+                <span class="tip-tag">面试技巧</span>
+            </div>
+        </div>
+    </main>
+<script>
+// 登录拦截
+if(!localStorage.getItem('isLogin')){
+    window.location.href="login.html";
+}
+// 退出登录
+function logoutSys(){
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('userName');
+    alert('已成功退出登录');
+    window.location.href="login.html";
+}
+// 规划搜索
+function searchPlan(){
+    let key = document.getElementById('planSearch').value.toLowerCase().trim();
+    let cards = document.querySelectorAll('.plan-card');
+    cards.forEach(item=>{
+        let text = item.innerText.toLowerCase();
+        item.style.display = text.includes(key) ? 'block' : 'none';
+    })
+}
+// 跳转规划详情页
+function goPlanDetail(pid){
+    location.href = `plan_detail.html?pid=${pid}`;
+}
+</script>
+</body>
+</html>

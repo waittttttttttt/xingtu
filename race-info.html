@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>竞赛资讯 - 星途平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/3.3.0/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: 'Inter', system-ui, sans-serif;background-color: #f7f3ea;color: #111827;display: flex;min-height: 100vh;}
+        /* 侧边栏统一样式 */
+        .sidebar {width: 250px;background-color: #111827;color: white;min-height: 100vh;padding: 24px 20px;display: flex;flex-direction: column;justify-content: space-between;flex-shrink: 0;}
+        .sidebar-logo {display: flex;align-items: center;gap: 10px;margin-bottom: 32px;}
+        .sidebar-logo .logo-mark {width: 34px;height: 34px;background-color: #ffffff;border-radius: 10px;display: flex;align-items: center;justify-content: center;color: #111827;font-weight: 700;font-size: 18px;}
+        .sidebar-logo .logo-text {font-size: 20px;font-weight: 700;letter-spacing: 0.5px;}
+        .nav-item {display: flex;align-items: center;gap: 12px;padding: 11px 14px;border-radius: 12px;color: #d1d5db;cursor: pointer;transition: 0.22s ease;margin-bottom: 8px;font-size: 14px;}
+        .nav-item:hover {background-color: #1f2937;color: #ffffff;}
+        .nav-item.active {background-color: #ffffff;color: #111827;font-weight: 600;}
+        .sidebar-bottom {margin-top: auto;padding-top: 24px;border-top: 1px solid #1f2937;}
+        .user-card {background-color: #1f2937;border-radius: 14px;padding: 14px;margin-bottom: 16px;}
+        .user-avatar {width: 42px;height: 42px;border-radius: 50%;background: linear-gradient(135deg, #fbbf24, #f97316);display: flex;align-items: center;justify-content: center;font-weight: 700;color: #111827;margin-bottom: 10px;}
+        .user-name {font-size: 15px;font-weight: 600;color: #ffffff;}
+        .user-role {font-size: 12px;color: #9ca3af;}
+        /* 主内容区 */
+        .main-content {flex: 1;padding: 24px 32px;overflow-y: auto;}
+        .top-bar {display: flex;justify-content: space-between;align-items: center;margin-bottom: 28px;}
+        .search-box {display: flex;align-items: center;background-color: #ffffff;border: 1px solid #e5e7eb;border-radius: 999px;padding: 10px 16px;width: 260px;}
+        .search-box i {color: #9ca3af;margin-right: 8px;}
+        .search-box input {border: none;outline: none;width: 100%;font-size: 14px;color: #111827;}
+        .top-actions {display: flex;align-items: center;gap: 12px;}
+        .icon-btn {width: 40px;height: 40px;border-radius: 50%;background-color: #ffffff;border: 1px solid #e5e7eb;display: flex;align-items: center;justify-content: center;color: #6b7280;cursor: pointer;transition: 0.2s ease;}
+        .icon-btn:hover {background-color: #f3f4f6;color: #111827;}
+        .page-title {margin-bottom: 24px;}
+        .page-title h1 {font-size: 26px;font-weight: 800;letter-spacing: 0.5px;margin-bottom: 6px;}
+        .page-title p {color: #6b7280;font-size: 15px;}
+        /* 竞赛卡片样式 */
+        .comp-card {background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,0.06);transition:transform .2s;cursor:pointer;}
+        .comp-card:hover {transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+        .comp-title {font-size:18px;font-weight:700;margin-bottom:8px;color:#111827;}
+        .comp-meta {font-size:13px;color:#666;margin-bottom:10px;}
+        .comp-desc {font-size:14px;color:#333;line-height:1.6;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-logo">
+                <div class="logo-mark">星</div>
+                <div class="logo-text">星途平台</div>
+            </div>
+            <nav>
+                <div class="nav-item" onclick="location.href='index.html'">
+                    <i class="fas fa-th-large"></i><span>仪表盘</span>
+                </div>
+                <div class="nav-item active" onclick="location.href='race-info.html'">
+                    <i class="fas fa-newspaper"></i><span>竞赛资讯</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-team.html'">
+                    <i class="fas fa-users"></i><span>竞赛组队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='teacher.html'">
+                    <i class="fas fa-user-tie"></i><span>导师团队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='community.html'">
+                    <i class="fas fa-comments"></i><span>社区讨论</span>
+                </div>
+                <div class="nav-item" onclick="location.href='plan.html'">
+                    <i class="fas fa-lightbulb"></i><span>升学规划</span>
+                </div>
+                <div class="nav-item" onclick="location.href='setting.html'">
+                    <i class="fas fa-cog"></i><span>设置</span>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="user-card">
+                <div class="user-avatar">S</div>
+                <div class="user-name">Student</div>
+                <div class="user-role">大数据管理与应用 · 大二</div>
+            </div>
+            <div class="nav-item" onclick="logoutSys()">
+                <i class="fas fa-sign-out-alt"></i><span>退出登录</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="搜索各类学科竞赛、科创赛事">
+            </div>
+            <div class="top-actions">
+                <div class="icon-btn"><i class="fas fa-envelope"></i></div>
+                <div class="icon-btn"><i class="fas fa-bell"></i></div>
+                <div class="icon-btn"><i class="fas fa-cog"></i></div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h1>最新竞赛资讯</h1>
+            <p>汇总全国高校热门权威赛事，点击任意卡片跳转赛事官方网站查看详情</p>
+        </div>
+
+        <!-- 1 全国大学生数学建模竞赛 -->
+        <div class="comp-card" onclick="window.open('https://www.mcm.edu.cn/')">
+            <div class="comp-title">全国大学生数学建模竞赛</div>
+            <div class="comp-meta">报名时间：8-9月 | 参赛人数：3人一组 | 主办单位：教育部高等教育司</div>
+            <div class="comp-desc">国内顶尖数理类竞赛，涵盖大数据分析、资源预测、社会治理、能源规划等选题，保研、评优、综测加分权重极高，经管与大数据专业适配度极高。</div>
+        </div>
+
+        <!-- 2 中国国际大学生创新大赛 -->
+        <div class="comp-card" onclick="window.open('https://cy.ncss.cn/')">
+            <div class="comp-title">中国国际大学生创新大赛</div>
+            <div class="comp-meta">报名时间：6-7月 | 赛道齐全 | 国家级最高级别双创赛事</div>
+            <div class="comp-desc">原互联网+大赛，包含高教主赛道、红色旅游赛道、产业命题赛道、乡村振兴赛道，适合商业策划、大数据项目、社会服务类项目参赛，可对接校内导师全程指导。</div>
+        </div>
+
+        <!-- 3 三创赛 -->
+        <div class="comp-card" onclick="window.open('https://www.3chuang.net/')">
+            <div class="comp-title">全国大学生电子商务三创挑战赛</div>
+            <div class="comp-meta">报名时间：3-5月 | 经管类核心赛事 | 认可度覆盖全国高校</div>
+            <div class="comp-desc">聚焦电商运营、用户数据分析、市场调研、新零售模式，大数据专业可发挥数据挖掘、用户画像、销量预测专业能力，组队难度低，获奖覆盖面广。</div>
+        </div>
+
+        <!-- 4 蓝桥杯 -->
+        <div class="comp-card" onclick="window.open('https://dasai.lanqiao.cn/')">
+            <div class="comp-title">蓝桥杯全国软件信息技术大赛</div>
+            <div class="comp-meta">报名时间：1-4月 | 技术类主流赛事 | 企业求职加分</div>
+            <div class="comp-desc">设有Python、Java、数据分析等组别，锻炼代码能力与数据处理能力，互联网、大数据企业招聘高度认可，适合理工科与信管类学生参赛。</div>
+        </div>
+
+        <!-- 5 市场调查与分析大赛 -->
+        <div class="comp-card" onclick="window.open('https://www.chinamsdc.org/')">
+            <div class="comp-title">全国大学生市场调查与分析大赛</div>
+            <div class="comp-meta">报名时间：11-次年3月 | 数据分析王牌赛事</div>
+            <div class="comp-desc">以实地调研、问卷收集、数据清洗、统计建模、报告撰写为主，完美贴合大数据管理专业课程内容，是经管学院最推荐参赛的专业赛事。</div>
+        </div>
+
+        <!-- 6 统计建模大赛 -->
+        <div class="comp-card" onclick="window.open('http://www.tjjmds.com/')">
+            <div class="comp-title">全国大学生统计建模大赛</div>
+            <div class="comp-meta">报名时间：4-6月 | 数理统计类权威赛事</div>
+            <div class="comp-desc">围绕经济数据、民生数据、资源环境数据建立统计模型，运用SPSS、Python、R语言进行数据分析，适合深耕数据方向学生参赛。</div>
+        </div>
+
+        <!-- 7 节能减排社会实践与科技竞赛 -->
+        <div class="comp-card" onclick="window.open('https://www.jienengjianpai.org/')">
+            <div class="comp-title">全国大学生节能减排社会实践竞赛</div>
+            <div class="comp-meta">报名时间：12-次年3月 | 能源环境方向热门赛事</div>
+            <div class="comp-desc">涵盖低碳经济、能源优化、资源节约、绿色大数据等方向，贴合自然资源、资源管理相关专业学习内容，容易寻找指导导师。</div>
+        </div>
+
+        <!-- 8 计算机设计大赛 -->
+        <div class="comp-card" onclick="window.open('https://www.jsjds.org/')">
+            <div class="comp-title">中国大学生计算机设计大赛</div>
+            <div class="comp-meta">报名时间：1-5月 | 设计+数据综合赛事</div>
+            <div class="comp-desc">包含数据可视化、大数据作品、小程序开发、信息设计等组别，可制作数据大屏、分析系统、校园服务平台等实用作品，实战性极强。</div>
+        </div>
+
+        <!-- 9 创新创业训练计划项目 -->
+        <div class="comp-card" onclick="window.open('https://cxcy.schooledu.cn/')">
+            <div class="comp-title">国家级大学生创新创业训练计划</div>
+            <div class="comp-meta">申报时间：每年5-6月 | 校级直通国家级立项</div>
+            <div class="comp-desc">分为创新训练、创业训练、创业实践三类项目，立项成功即可获得经费支持，可依托导师课题开展大数据调研、资源数据分析等课题研究。</div>
+        </div>
+
+        <!-- 10 金融创新大赛 -->
+        <div class="comp-card" onclick="window.open('https://www.cfvc.org.cn/')">
+            <div class="comp-title">全国大学生金融创新大赛</div>
+            <div class="comp-meta">报名时间：2-4月 | 经管金融方向赛事</div>
+            <div class="comp-desc">包含金融数据分析、理财规划、行业经济研判等赛道，利用大数据进行金融市场分析，适合经管、大数据管理专业学生参赛。</div>
+        </div>
+
+    </main>
+<script>
+function logoutSys(){
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('userName');
+    alert('已成功退出登录');
+    window.location.href="login.html";
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>竞赛组队 - 星途平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/3.3.0/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: 'Inter', system-ui, sans-serif;background-color: #f7f3ea;color: #111827;display: flex;min-height: 100vh;}
+        /* 侧边栏统一样式 */
+        .sidebar {width: 250px;background-color: #111827;color: white;min-height: 100vh;padding: 24px 20px;display: flex;flex-direction: column;justify-content: space-between;flex-shrink: 0;}
+        .sidebar-logo {display: flex;align-items: center;gap: 10px;margin-bottom: 32px;}
+        .sidebar-logo .logo-mark {width: 34px;height: 34px;background-color: #ffffff;border-radius: 10px;display: flex;align-items: center;justify-content: center;color: #111827;font-weight: 700;font-size: 18px;}
+        .sidebar-logo .logo-text {font-size: 20px;font-weight: 700;letter-spacing: 0.5px;}
+        .nav-item {display: flex;align-items: center;gap: 12px;padding: 11px 14px;border-radius: 12px;color: #d1d5db;cursor: pointer;transition: 0.22s ease;margin-bottom: 8px;font-size: 14px;}
+        .nav-item:hover {background-color: #1f2937;color: #ffffff;}
+        .nav-item.active {background-color: #ffffff;color: #111827;font-weight: 600;}
+        .sidebar-bottom {margin-top: auto;padding-top: 24px;border-top: 1px solid #1f2937;}
+        .user-card {background-color: #1f2937;border-radius: 14px;padding: 14px;margin-bottom: 16px;}
+        .user-avatar {width: 42px;height: 42px;border-radius: 50%;background: linear-gradient(135deg, #fbbf24, #f97316);display: flex;align-items: center;justify-content: center;font-weight: 700;color: #111827;margin-bottom: 10px;}
+        .user-name {font-size: 15px;font-weight: 600;color: #ffffff;}
+        .user-role {font-size: 12px;color: #9ca3af;}
+        /* 主内容区 */
+        .main-content {flex: 1;padding: 24px 32px;overflow-y: auto;}
+        .top-bar {display: flex;justify-content: space-between;align-items: center;margin-bottom: 28px;}
+        .search-box {display: flex;align-items: center;background-color: #ffffff;border: 1px solid #e5e7eb;border-radius: 999px;padding: 10px 16px;width: 260px;}
+        .search-box i {color: #9ca3af;margin-right: 8px;}
+        .search-box input {border: none;outline: none;width: 100%;font-size: 14px;color: #111827;}
+        .top-actions {display: flex;align-items: center;gap: 12px;}
+        .icon-btn {width: 40px;height: 40px;border-radius: 50%;background-color: #ffffff;border: 1px solid #e5e7eb;display: flex;align-items: center;justify-content: center;color: #6b7280;cursor: pointer;transition: 0.2s ease;}
+        .icon-btn:hover {background-color: #f3f4f6;color: #111827;}
+        .publish-btn{padding:9px 18px;background:#2563eb;color:#fff;border-radius:10px;border:none;cursor:pointer;transition:0.2s;}
+        .publish-btn:hover{background:#1d4ed8;}
+        .page-title {margin-bottom: 24px;}
+        .page-title h1 {font-size: 26px;font-weight: 800;letter-spacing: 0.5px;margin-bottom: 6px;}
+        .page-title p {color: #6b7280;font-size: 15px;}
+        /* 组队卡片样式 */
+        .team-card {background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,0.06);transition:transform .2s;cursor: pointer;}
+        .team-card:hover {transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+        .team-title {font-size:18px;font-weight:700;margin-bottom:8px;color:#111827;}
+        .team-meta {font-size:13px;color:#666;margin-bottom:10px;}
+        .team-desc {font-size:14px;color:#333;line-height:1.6;}
+        .tag {display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;margin-right:6px;}
+        .tag-need {background:#e6f7ff;color:#1890ff;}
+        .tag-full {background:#f0f0f0;color:#666;}
+        .tag-hot{background:#fff1f0;color:#f53f3f;}
+        /* 弹窗样式 */
+        .mask{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:none;align-items:center;justify-content:center;z-index:999;}
+        .pop-box{width:520px;background:#fff;border-radius:16px;padding:25px;}
+        .pop-title{font-size:18px;font-weight:bold;margin-bottom:20px;}
+        .inp-item{margin-bottom:15px;}
+        .inp-item label{display:block;margin-bottom:5px;font-size:14px;color:#444;}
+        .inp-item input,.inp-item textarea{width:100%;border:1px solid #ddd;padding:10px;border-radius:8px;outline:none;}
+        .btn-group{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;}
+        .btn-cancel{padding:8px 16px;border:1px solid #ccc;border-radius:8px;background:#fff;cursor:pointer;}
+        .btn-sure{padding:8px 16px;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-logo">
+                <div class="logo-mark">星</div>
+                <div class="logo-text">星途平台</div>
+            </div>
+            <nav>
+                <div class="nav-item" onclick="location.href='index.html'">
+                    <i class="fas fa-th-large"></i><span>仪表盘</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-info.html'">
+                    <i class="fas fa-newspaper"></i><span>竞赛资讯</span>
+                </div>
+                <div class="nav-item active" onclick="location.href='race-team.html'">
+                    <i class="fas fa-users"></i><span>竞赛组队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='teacher.html'">
+                    <i class="fas fa-user-tie"></i><span>导师团队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='community.html'">
+                    <i class="fas fa-comments"></i><span>社区讨论</span>
+                </div>
+                <div class="nav-item" onclick="location.href='plan.html'">
+                    <i class="fas fa-lightbulb"></i><span>升学规划</span>
+                </div>
+                <div class="nav-item" onclick="location.href='setting.html'">
+                    <i class="fas fa-cog"></i><span>设置</span>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="user-card">
+                <div class="user-avatar">S</div>
+                <div class="user-name">Student</div>
+                <div class="user-role">大数据管理与应用 · 大二</div>
+            </div>
+            <div class="nav-item" onclick="logoutSys()">
+                <i class="fas fa-sign-out-alt"></i><span>退出登录</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="teamSearch" placeholder="寻找队友、发布组队需求" oninput="searchTeam()">
+            </div>
+            <div class="top-actions">
+                <button class="publish-btn" onclick="openPublishPop()"><i class="fas fa-plus"></i> 发布组队</button>
+                <div class="icon-btn"><i class="fas fa-envelope"></i></div>
+                <div class="icon-btn"><i class="fas fa-bell"></i></div>
+                <div class="icon-btn"><i class="fas fa-cog"></i></div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h1>竞赛组队广场</h1>
+            <p>汇聚全校参赛组队需求，匹配技术、文案、策划、数据分析各类队友，对接优质指导导师</p>
+        </div>
+
+        <div id="teamList">
+            <div class="team-card" data-tid="1" onclick="goTeamDetail(1)">
+                <div class="team-title">数学建模竞赛｜招募数据分析与建模队友</div>
+                <div class="team-meta">发布者：Student | 专业：大数据管理与应用 <span class="tag tag-need">缺1人</span><span class="tag tag-hot">热门</span></div>
+                <div class="team-desc">备战全国大学生数学建模国赛，队内已有论文撰写成员，急需精通Python数据处理、SPSS统计分析、模型搭建队友，态度认真可长期备赛，可联系经管学院资深导师进行赛前指导。</div>
+            </div>
+
+            <div class="team-card" data-tid="2" onclick="goTeamDetail(2)">
+                <div class="team-title">创新大赛｜乡村振兴大数据创业项目组队</div>
+                <div class="team-meta">发布者：经管学院学长 <span class="tag tag-need">缺2人</span></div>
+                <div class="team-desc">主打乡村农产品数据调研与产销匹配项目，完善商业计划书与市场调研报告，招募擅长文案排版、PPT设计、市场调研同学，项目成熟，往届曾获省级奖项，资源充足。</div>
+            </div>
+
+            <div class="team-card" data-tid="3" onclick="goTeamDetail(3)">
+                <div class="team-title">三创赛｜电商用户画像与销量预测参赛组</div>
+                <div class="team-meta">发布者：大数据大二学生 <span class="tag tag-full">队伍已满</span></div>
+                <div class="team-desc">专注电商赛道数据分析方向，利用真实电商数据集完成用户分层、消费趋势预测，全员掌握基础数据分析技能，日常稳定磨合，目标冲击省级以上奖项。</div>
+            </div>
+
+            <div class="team-card" data-tid="4" onclick="goTeamDetail(4)">
+                <div class="team-title">计算机设计大赛｜数据可视化大屏制作组队</div>
+                <div class="team-meta">发布者：信管专业学生 <span class="tag tag-need">缺设计队友</span></div>
+                <div class="team-desc">制作自然资源大数据可视化平台作品，负责数据整理、页面布局、图表美化，零基础可带，耐心沟通，适合想要积累实战项目经验的同学。</div>
+            </div>
+
+            <div class="team-card" data-tid="5" onclick="goTeamDetail(5)">
+                <div class="team-title">市场调查大赛｜社会民生调研项目招队友</div>
+                <div class="team-meta">发布者：在校参赛团队 <span class="tag tag-need">缺调研撰写人员</span></div>
+                <div class="team-desc">围绕校园消费、城市资源利用等主题开展实地问卷调研，完成数据汇总、统计分析与完整调研报告，贴合专业课程内容，难度适中，获奖率高。</div>
+            </div>
+
+            <div class="team-card" data-tid="6" onclick="goTeamDetail(6)">
+                <div class="team-title">蓝桥杯赛道｜Python编程刷题备考组队</div>
+                <div class="team-meta">发布者：技术爱好者 <span class="tag tag-need">多人可入</span></div>
+                <div class="team-desc">组建线上刷题小队，每日共同练习算法与数据实操题目，互相讲解知识点，备战蓝桥杯省赛与国赛，适合想要提升代码能力、求职加分的同学加入。</div>
+            </div>
+
+            <div class="team-card" data-tid="7" onclick="goTeamDetail(7)">
+                <div class="team-title">节能减排竞赛｜低碳能源数据分析项目组队</div>
+                <div class="team-meta">发布者：资源管理专业 <span class="tag tag-need">缺数据整理队友</span></div>
+                <div class="team-desc">聚焦能源节约、低碳发展相关选题，整理行业公开数据，搭建简易分析模型，撰写社会实践报告，贴合院校科研方向，极易对接学院导师指导。</div>
+            </div>
+
+            <div class="team-card" data-tid="8" onclick="goTeamDetail(8)">
+                <div class="team-title">大创项目｜校级创新训练计划招募组员</div>
+                <div class="team-meta">发布者：项目负责人 <span class="tag tag-need">缺2-3人</span><span class="tag tag-hot">推荐</span></div>
+                <div class="team-desc">申报校级大学生创新创业训练计划，选题为校园智慧服务大数据研究，立项成功可获得学校经费支持，全程跟着导师完成课题研究，可结项拿学分与实践证明。</div>
+            </div>
+
+            <div class="team-card" data-tid="9" onclick="goTeamDetail(9)">
+                <div class="team-title">文案策划专项｜各类赛事文稿代写组队协作</div>
+                <div class="team-meta">发布者：文案特长学生 <span class="tag tag-full">长期合作</span></div>
+                <div class="team-desc">擅长赛事计划书、申报书、结题报告、参赛演讲稿撰写，可长期和技术型队友搭档组队，分工明确高效参赛，适配绝大多数经管类、科创类赛事。</div>
+            </div>
+
+            <div class="team-card" data-tid="10" onclick="goTeamDetail(10)">
+                <div class="team-title">跨专业联合组队｜全赛事通用预备团队</div>
+                <div class="team-meta">发布者：综合参赛社团 <span class="tag tag-need">不限人数</span></div>
+                <div class="team-desc">汇聚全校不同专业参赛同学，提前组建预备参赛队伍，各类赛事均可灵活拆分重组，共享参赛经验、报名渠道、往届优秀作品，新人友好，快速上手参赛。</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 发布组队弹窗 -->
+    <div class="mask" id="publishMask">
+        <div class="pop-box">
+            <div class="pop-title">发布全新组队需求</div>
+            <div class="inp-item">
+                <label>赛事/项目标题</label>
+                <input type="text" placeholder="例如：互联网+大赛组队招募">
+            </div>
+            <div class="inp-item">
+                <label>招募岗位 & 缺少人数</label>
+                <input type="text" placeholder="例如：缺文案1名、数据分析1名">
+            </div>
+            <div class="inp-item">
+                <label>详细组队要求</label>
+                <textarea rows="4" placeholder="填写技能要求、备赛时间、过往经验、联系方式等"></textarea>
+            </div>
+            <div class="btn-group">
+                <button class="btn-cancel" onclick="closePublishPop()">取消</button>
+                <button class="btn-sure">立即发布</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+// 登录拦截
+if(!localStorage.getItem('isLogin')){
+    window.location.href="login.html";
+}
+// 退出登录
+function logoutSys(){
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('userName');
+    alert('已成功退出登录');
+    window.location.href="login.html";
+}
+// 搜索组队
+function searchTeam(){
+    let key = document.getElementById('teamSearch').value.toLowerCase().trim();
+    let cards = document.querySelectorAll('.team-card');
+    cards.forEach(item=>{
+        let text = item.innerText.toLowerCase();
+        item.style.display = text.includes(key) ? 'block' : 'none';
+    })
+}
+// 跳转组队详情
+function goTeamDetail(tid){
+    location.href = `team_detail.html?tid=${tid}`;
+}
+// 弹窗控制
+function openPublishPop(){
+    document.getElementById('publishMask').style.display = 'flex';
+}
+function closePublishPop(){
+    document.getElementById('publishMask').style.display = 'none';
+}
+</script>
+</body>
+</html>

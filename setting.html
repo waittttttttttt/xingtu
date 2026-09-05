@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人设置 - 星途平台</title>
+    <!-- 登录拦截 -->
+    <script>
+        if(!localStorage.getItem('isLogin')){
+            window.location.href = "login.html";
+        }
+    </script>
+    <!-- 主题初始化（必须在最前面，防止闪屏） -->
+    <script>
+        (function(){
+            var t = localStorage.getItem("set_theme") || "light";
+            if(t === "auto"){
+                t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+            document.documentElement.setAttribute("data-theme", t);
+        })();
+    </script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/3.3.0/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ========== 主题变量（浅色默认） ========== */
+        :root{
+            --bg-body:#f7f3ea;
+            --bg-card:#ffffff;
+            --bg-sidebar:#111827;
+            --bg-sidebar-bottom:#1f2937;
+            --text-main:#111827;
+            --text-muted:#6b7280;
+            --text-sidebar:#d1d5db;
+            --border:#e5e7eb;
+            --shadow:0 4px 14px rgba(0,0,0,0.06);
+        }
+        /* 深色主题 */
+        [data-theme="dark"]{
+            --bg-body:#0f172a;
+            --bg-card:#1e293b;
+            --bg-sidebar:#020617;
+            --bg-sidebar-bottom:#1e293b;
+            --text-main:#f8fafc;
+            --text-muted:#94a3b8;
+            --text-sidebar:#cbd5e1;
+            --border:#334155;
+            --shadow:0 4px 14px rgba(0,0,0,0.25);
+        }
+        * {margin: 0;padding: 0;box-sizing: border-box;transition: background-color .3s ease, color .3s ease, border-color .3s ease;}
+        body {font-family: 'Inter', system-ui, sans-serif;background-color: var(--bg-body);color: var(--text-main);display: flex;min-height: 100vh;}
+        /* 侧边栏 */
+        .sidebar {width: 250px;background-color: var(--bg-sidebar);color: white;min-height: 100vh;padding: 24px 20px;display: flex;flex-direction: column;justify-content: space-between;flex-shrink: 0;}
+        .sidebar-logo {display: flex;align-items: center;gap: 10px;margin-bottom: 32px;}
+        .sidebar-logo .logo-mark {width: 34px;height: 34px;background-color: #ffffff;border-radius: 10px;display: flex;align-items: center;justify-content: center;color: #111827;font-weight: 700;font-size: 18px;}
+        .sidebar-logo .logo-text {font-size: 20px;font-weight: 700;letter-spacing: 0.5px;}
+        .nav-item {display: flex;align-items: center;gap: 12px;padding: 11px 14px;border-radius: 12px;color: var(--text-sidebar);cursor: pointer;transition: 0.22s ease;margin-bottom: 8px;font-size: 14px;}
+        .nav-item:hover {background-color: #1f2937;color: #ffffff;}
+        .nav-item.active {background-color: #ffffff;color: #111827;font-weight: 600;}
+        .sidebar-bottom {margin-top: auto;padding-top: 24px;border-top: 1px solid #1f2937;}
+        .user-card {background-color: var(--bg-sidebar-bottom);border-radius: 14px;padding: 14px;margin-bottom: 16px;}
+        .user-avatar {width: 42px;height: 42px;border-radius: 50%;background: linear-gradient(135deg, #fbbf24, #f97316);display: flex;align-items: center;justify-content: center;font-weight: 700;color: #111827;margin-bottom: 10px;cursor: pointer;}
+        .user-name {font-size: 15px;font-weight: 600;color: #ffffff;}
+        .user-role {font-size: 12px;color: #9ca3af;}
+        /* 主内容区 */
+        .main-content {flex: 1;padding: 24px 32px;overflow-y: auto;}
+        .top-bar {display: flex;justify-content: space-between;align-items: center;margin-bottom: 28px;}
+        .search-box {display: flex;align-items: center;background-color: var(--bg-card);border: 1px solid var(--border);border-radius: 999px;padding: 10px 16px;width: 260px;}
+        .search-box i {color: var(--text-muted);margin-right: 8px;}
+        .search-box input {border: none;outline: none;width: 100%;font-size: 14px;color: var(--text-main);background:transparent;}
+        .top-actions {display: flex;align-items: center;gap: 12px;}
+        .icon-btn {width: 40px;height: 40px;border-radius: 50%;background-color: var(--bg-card);border: 1px solid var(--border);display: flex;align-items: center;justify-content: center;color: var(--text-muted);cursor: pointer;transition: 0.2s ease;}
+        .icon-btn:hover {background-color: #f3f4f6;color: #111827;}
+        .page-title {margin-bottom: 24px;}
+        .page-title h1 {font-size: 26px;font-weight: 800;letter-spacing: 0.5px;margin-bottom: 6px;}
+        .page-title p {color: var(--text-muted);font-size: 15px;}
+        /* 卡片 */
+        .card {background-color: var(--bg-card);border-radius: 18px;padding: 22px;box-shadow: var(--shadow);transition: 0.25s ease;border: 1px solid var(--border);}
+        .card:hover {transform: translateY(-3px);box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);}
+        .card-title {font-size: 18px;font-weight: 700;margin-bottom: 18px;display: flex;justify-content: space-between;align-items: center;}
+        .form-item {margin-bottom: 20px;}
+        .form-item label {display: block;margin-bottom: 8px;font-size: 14px;font-weight: 600;color: var(--text-main);}
+        .form-item input, .form-item select {width: 100%;padding: 11px 15px;border: 1px solid var(--border);border-radius: 12px;outline: none;font-size: 14px;transition: 0.2s;background-color: var(--bg-card);color: var(--text-main);}
+        .form-item input:focus, .form-item select:focus {border-color: #111827;box-shadow: 0 0 0 3px rgba(17,24,39,0.1);}
+        .form-item input.readonly {background: #f9fafb;cursor: not-allowed;}
+        .btn {display: inline-block;padding: 10px 20px;border-radius: 999px;background-color: #111827;color: #ffffff;font-size: 14px;font-weight: 600;border: none;cursor: pointer;transition: 0.2s ease;}
+        .btn:hover {background-color: #1f2937;}
+        .btn-danger {background-color: #ef4444;}
+        .btn-danger:hover {background-color: #dc2626;}
+        .btn-outline {background: transparent;color: var(--text-main);border:1px solid var(--border);}
+        .btn-outline:hover {background: #f3f4f6;}
+        .avatar-box {display: flex;align-items: center;gap: 20px;margin-bottom:24px;}
+        .big-avatar {width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f97316);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:bold;color:#111827;cursor:pointer;position:relative;}
+        .big-avatar:hover::after{
+            content:"更换头像";
+            position:absolute;
+            bottom:-25px;
+            left:50%;
+            transform:translateX(-50%);
+            font-size:12px;
+            color:#6b7280;
+            white-space:nowrap;
+        }
+        .tip-text {font-size:12px;color:var(--text-muted);margin-top:4px;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-logo">
+                <div class="logo-mark">星</div>
+                <div class="logo-text">星途平台</div>
+            </div>
+            <nav>
+                <div class="nav-item" onclick="window.location.href='index.html'">
+                    <i class="fas fa-th-large"></i><span>仪表盘</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='race-info.html'">
+                    <i class="fas fa-newspaper"></i><span>竞赛资讯</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='race-team.html'">
+                    <i class="fas fa-users"></i><span>竞赛组队</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='teacher.html'">
+                    <i class="fas fa-user-tie"></i><span>导师团队</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='community.html'">
+                    <i class="fas fa-comments"></i><span>社区讨论</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='plan.html'">
+                    <i class="fas fa-lightbulb"></i><span>升学规划</span>
+                </div>
+                <div class="nav-item active" onclick="window.location.href='setting.html'">
+                    <i class="fas fa-cog"></i><span>设置</span>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="user-card">
+                <div class="user-avatar" id="sideAvatar">S</div>
+                <div class="user-name" id="sideUserName">Student</div>
+                <div class="user-role" id="sideUserRole">大数据管理与应用 · 大二</div>
+            </div>
+            <div class="nav-item" onclick="logoutSys()">
+                <i class="fas fa-sign-out-alt"></i><span>退出登录</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="搜索设置选项...">
+            </div>
+            <div class="top-actions">
+                <div class="icon-btn" title="保存全部设置" onclick="saveAllSetting()">
+                    <i class="fas fa-save"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h1>个人设置中心</h1>
+            <p>管理账户资料、使用偏好与账号安全</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- 个人基本信息 -->
+            <div class="card">
+                <div class="card-title">
+                    <span>个人基本资料</span>
+                    <button class="btn-outline text-sm px-3 py-1" id="editInfoBtn" onclick="toggleEditInfo()">编辑资料</button>
+                </div>
+                <div class="avatar-box">
+                    <div class="big-avatar" id="mainAvatar">S</div>
+                    <div>
+                        <p class="font-semibold">点击头像更换字符头像</p>
+                        <p class="tip-text">仅支持单个中英文字符</p>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label>昵称/用户名</label>
+                    <input type="text" id="userNick" value="Student" class="readonly">
+                </div>
+                <div class="form-item">
+                    <label>真实姓名</label>
+                    <input type="text" id="userRealName" value="" class="readonly" placeholder="请填写真实姓名">
+                </div>
+                <div class="form-item">
+                    <label>学院专业</label>
+                    <input type="text" id="userMajor" value="大数据管理与应用" class="readonly">
+                </div>
+                <div class="form-item">
+                    <label>在读年级</label>
+                    <select id="userGrade" class="readonly">
+                        <option>大一</option>
+                        <option selected>大二</option>
+                        <option>大三</option>
+                        <option>大四</option>
+                        <option>研究生</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label>联系邮箱</label>
+                    <input type="email" id="userEmail" value="" class="readonly" placeholder="填写常用校园邮箱">
+                </div>
+            </div>
+
+            <!-- 使用偏好设置 -->
+            <div class="card">
+                <div class="card-title">使用偏好设置</div>
+                <div class="form-item">
+                    <label>消息通知权限</label>
+                    <select id="noticeMode">
+                        <option value="all">全部开启</option>
+                        <option value="important">仅重要通知</option>
+                        <option value="close">全部关闭</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label>界面显示主题</label>
+                    <select id="themeMode">
+                        <option value="light">浅色模式</option>
+                        <option value="dark">深色模式</option>
+                        <option value="auto">跟随系统</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label>首页默认页面</label>
+                    <select id="homeDefault">
+                        <option value="schedule" selected>学习日程</option>
+                        <option value="race">竞赛资讯</option>
+                        <option value="resource">资料共享</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label>列表每页展示数量</label>
+                    <select id="pageSize">
+                        <option>5条</option>
+                        <option selected>10条</option>
+                        <option>15条</option>
+                        <option>20条</option>
+                    </select>
+                </div>
+                <p class="tip-text mt-2">修改后点击右上角保存按钮即可生效</p>
+            </div>
+
+            <!-- 账号安全中心 -->
+            <div class="card md:col-span-2">
+                <div class="card-title">账号安全管理</div>
+                <div class="flex flex-wrap gap-4 items-center">
+                    <button class="btn" onclick="alert('跳转修改密码页面')">修改登录密码</button>
+                    <button class="btn btn-outline" onclick="alert('已发送验证码至绑定邮箱')">绑定/更换邮箱</button>
+                    <button class="btn btn-outline" onclick="alert('开启成功，异地登录将提醒')">开启登录保护</button>
+                    <button class="btn btn-danger" onclick="confirmLogoutAccount()">注销当前账号</button>
+                </div>
+            </div>
+
+            <!-- 缓存与清理 -->
+            <div class="card md:col-span-2">
+                <div class="card-title">缓存与辅助功能</div>
+                <div class="flex flex-wrap gap-4 items-center">
+                    <button class="btn btn-outline" onclick="clearLocalCache()">清理本地缓存数据</button>
+                    <button class="btn btn-outline" onclick="alert('已恢复默认所有设置')">恢复平台默认设置</button>
+                    <button class="btn btn-outline" onclick="alert('正在检测版本更新...')">检查平台版本更新</button>
+                    <button class="btn btn-outline" onclick="alert('跳转帮助中心')">使用帮助与反馈</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script>
+// 退出登录
+function logoutSys(){
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('userName');
+    alert('已成功退出登录');
+    window.location.href="login.html";
+}
+
+// 编辑/取消编辑个人资料
+let isEditInfo = false;
+function toggleEditInfo(){
+    const inputs = document.querySelectorAll("#userNick,#userRealName,#userMajor,#userGrade,#userEmail");
+    const btn = document.getElementById("editInfoBtn");
+    if(!isEditInfo){
+        // 开启编辑
+        inputs.forEach(item=>{
+            item.classList.remove('readonly');
+            item.removeAttribute('readonly');
+        })
+        btn.innerText = "取消编辑";
+        isEditInfo = true;
+    }else{
+        // 取消编辑
+        inputs.forEach(item=>{
+            item.classList.add('readonly');
+            item.setAttribute('readonly','readonly');
+        })
+        btn.innerText = "编辑资料";
+        isEditInfo = false;
+    }
+}
+
+// 切换主题函数
+function applyTheme(mode){
+    let t = mode;
+    if(mode === "auto"){
+        t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", t);
+}
+
+// 保存全部设置
+function saveAllSetting(){
+    let nick = document.getElementById("userNick").value.trim();
+    let name = document.getElementById("userRealName").value.trim();
+    let major = document.getElementById("userMajor").value.trim();
+    let grade = document.getElementById("userGrade").value;
+    let email = document.getElementById("userEmail").value.trim();
+    let theme = document.getElementById("themeMode").value;
+
+    // 本地存储保存
+    localStorage.setItem("set_nick",nick);
+    localStorage.setItem("set_name",name);
+    localStorage.setItem("set_major",major);
+    localStorage.setItem("set_grade",grade);
+    localStorage.setItem("set_email",email);
+    localStorage.setItem("set_notice",document.getElementById("noticeMode").value);
+    localStorage.setItem("set_theme",theme);
+    localStorage.setItem("set_home",document.getElementById("homeDefault").value);
+    localStorage.setItem("set_pagesize",document.getElementById("pageSize").value);
+
+    // 应用主题
+    applyTheme(theme);
+
+    // 同步修改侧边栏用户展示
+    document.getElementById("sideUserName").innerText = nick || "Student";
+    document.getElementById("sideUserRole").innerText = major + " · " + grade;
+
+    alert("✅ 所有设置保存成功，主题已即时生效！");
+    // 保存后自动关闭编辑状态
+    isEditInfo = false;
+    const inputs = document.querySelectorAll("#userNick,#userRealName,#userMajor,#userGrade,#userEmail");
+    inputs.forEach(item=>{
+        item.classList.add('readonly');
+        item.setAttribute('readonly','readonly');
+    })
+    document.getElementById("editInfoBtn").innerText = "编辑资料";
+}
+
+// 注销账号确认
+function confirmLogoutAccount(){
+    if(confirm("⚠️ 确定要注销账号吗？数据将无法恢复！")){
+        localStorage.clear();
+        alert("账号已注销，即将跳转登录页");
+        window.location.href="login.html";
+    }
+}
+
+// 清理本地缓存
+function clearLocalCache(){
+    let keepLogin = localStorage.getItem("isLogin");
+    let keepTheme = localStorage.getItem("set_theme");
+    localStorage.clear();
+    if(keepLogin) localStorage.setItem("isLogin",keepLogin);
+    if(keepTheme) localStorage.setItem("set_theme",keepTheme);
+    alert("🧹 本地缓存清理完成，登录与主题设置已保留");
+    location.reload();
+}
+
+// 页面加载读取本地保存设置
+window.onload = function(){
+    if(localStorage.getItem("set_nick")){
+        document.getElementById("userNick").value = localStorage.getItem("set_nick");
+        document.getElementById("sideUserName").innerText = localStorage.getItem("set_nick");
+    }
+    if(localStorage.getItem("set_name")) document.getElementById("userRealName").value = localStorage.getItem("set_name");
+    if(localStorage.getItem("set_major")){
+        document.getElementById("userMajor").value = localStorage.getItem("set_major");
+    }
+    if(localStorage.getItem("set_grade")){
+        document.getElementById("userGrade").value = localStorage.getItem("set_grade");
+        document.getElementById("sideUserRole").innerText = document.getElementById("userMajor").value + " · " + localStorage.getItem("set_grade");
+    }
+    if(localStorage.getItem("set_email")) document.getElementById("userEmail").value = localStorage.getItem("set_email");
+    if(localStorage.getItem("set_notice")) document.getElementById("noticeMode").value = localStorage.getItem("set_notice");
+    if(localStorage.getItem("set_theme")){
+        document.getElementById("themeMode").value = localStorage.getItem("set_theme");
+        applyTheme(localStorage.getItem("set_theme"));
+    }
+    if(localStorage.getItem("set_home")) document.getElementById("homeDefault").value = localStorage.getItem("set_home");
+    if(localStorage.getItem("set_pagesize")) document.getElementById("pageSize").value = localStorage.getItem("set_pagesize");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+/* ========== 全局重置 & 基础设置 ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F0F7FD;
+    color: #28517F;
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+/* ========== 左侧侧边栏 ========== */
+.sidebar {
+    background-color: #28517F;
+    color: #E0EDF9;
+}
+
+.sidebar .logo,
+.sidebar h2 {
+    color: #FFFFFF;
+}
+
+.sidebar .nav-item {
+    color: #C7E1FA;
+    padding: 12px 16px;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar .nav-item:hover {
+    background-color: #3A6A9E;
+    color: #FFFFFF;
+}
+
+.sidebar .nav-item.active {
+    background-color: #8EB1D1;
+    color: #FFFFFF;
+    border-radius: 8px;
+}
+
+/* ========== 主内容区 ========== */
+.main-content {
+    background-color: #F0F7FD;
+    padding: 20px;
+}
+
+/* 顶部搜索框 */
+.search-bar {
+    background-color: #FFFFFF;
+    border: 1px solid #C7E1FA;
+    border-radius: 20px;
+}
+
+.search-bar input {
+    color: #28517F;
+}
+
+.search-bar input:focus {
+    border-color: #8EB1D1;
+    outline: none;
+}
+
+/* 头部图标按钮 */
+.header-icon-btn {
+    background-color: #FFFFFF;
+    border: 1px solid #C7E1FA;
+    color: #28517F;
+}
+
+.header-icon-btn:hover {
+    background-color: #E0EDF9;
+}
+
+/* ========== 卡片样式 ========== */
+.card {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(40, 81, 127, 0.08);
+    border: none;
+    transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 18px rgba(40, 81, 127, 0.15);
+}
+
+.card-title {
+    color: #28517F;
+    font-weight: 600;
+}
+
+.card-meta,
+.card-desc {
+    color: #5A7FA3;
+}
+
+/* ========== 按钮 & 强调元素 ========== */
+.btn-primary {
+    background-color: #28517F;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #3A6A9E;
+}
+
+.tag {
+    background-color: #E0EDF9;
+    color: #28517F;
+    border-radius: 12px;
+}
+
+/* ========== 输入框 & 表单 ========== */
+input, textarea, select {
+    border: 1px solid #C7E1FA;
+    background-color: #FFFFFF;
+    color: #28517F;
+    border-radius: 8px;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #8EB1D1;
+    box-shadow: 0 0 0 3px rgba(142, 177, 209, 0.12);
+    outline: none;
+}
+

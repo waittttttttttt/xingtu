@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全部任务 - 星途平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/3.3.0/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: 'Inter', system-ui, sans-serif;background-color: #f7f3ea;color: #111827;display: flex;min-height: 100vh;}
+        .sidebar {width: 250px;background-color: #111827;color: white;min-height: 100vh;padding: 24px 20px;display: flex;flex-direction: column;justify-content: space-between;flex-shrink: 0;}
+        .sidebar-logo {display: flex;align-items: center;gap: 10px;margin-bottom: 32px;}
+        .sidebar-logo .logo-mark {width: 34px;height: 34px;background-color: #ffffff;border-radius: 10px;display: flex;align-items: center;justify-content: center;color: #111827;font-weight: 700;font-size: 18px;}
+        .sidebar-logo .logo-text {font-size: 20px;font-weight: 700;letter-spacing: 0.5px;}
+        .nav-item {display: flex;align-items: center;gap: 12px;padding: 11px 14px;border-radius: 12px;color: #d1d5db;cursor: pointer;transition: 0.22s ease;margin-bottom: 8px;font-size: 14px;}
+        .nav-item:hover {background-color: #1f2937;color: #ffffff;}
+        .nav-item.active {background-color: #ffffff;color: #111827;font-weight: 600;}
+        .sidebar-bottom {margin-top: auto;padding-top: 24px;border-top: 1px solid #1f2937;}
+        .user-card {background-color: #1f2937;border-radius: 14px;padding: 14px;margin-bottom: 16px;}
+        .user-avatar {width: 42px;height: 42px;border-radius: 50%;background: linear-gradient(135deg, #fbbf24, #f97316);display: flex;align-items: center;justify-content: center;font-weight: 700;color: #111827;margin-bottom: 10px;}
+        .user-name {font-size: 15px;font-weight: 600;color: #ffffff;}
+        .user-role {font-size: 12px;color: #9ca3af;}
+        .main-content {flex: 1;padding: 24px 32px;overflow-y: auto;}
+        .page-title {margin-bottom: 24px;}
+        .page-title h1 {font-size: 26px;font-weight: 800;letter-spacing: 0.5px;margin-bottom: 6px;}
+        .page-title p {color: #6b7280;font-size: 15px;}
+        .task-card {background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,0.06);}
+        .task-header {display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+        .task-title {font-size:16px;font-weight:700;}
+        .task-status {font-size:12px;padding:3px 10px;border-radius:999px;}
+        .status-pending {background:#fef3c7;color:#d97706;}
+        .status-doing {background:#dbeafe;color:#2563eb;}
+        .status-done {background:#dcfce7;color:#16a34a;}
+        .task-info {font-size:13px;color:#666;margin-bottom:10px;}
+        .task-desc {font-size:14px;color:#333;line-height:1.6;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-logo">
+                <div class="logo-mark">星</div>
+                <div class="logo-text">星途平台</div>
+            </div>
+            <nav>
+                <div class="nav-item active" onclick="location.href='index.html'">
+                    <i class="fas fa-th-large"></i><span>仪表盘</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-info.html'">
+                    <i class="fas fa-newspaper"></i><span>竞赛资讯</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-team.html'">
+                    <i class="fas fa-users"></i><span>竞赛组队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='teacher.html'">
+                    <i class="fas fa-user-tie"></i><span>导师团队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='community.html'">
+                    <i class="fas fa-comments"></i><span>社区讨论</span>
+                </div>
+                <div class="nav-item" onclick="location.href='plan.html'">
+                    <i class="fas fa-lightbulb"></i><span>升学规划</span>
+                </div>
+                <div class="nav-item" onclick="location.href='setting.html'">
+                    <i class="fas fa-cog"></i><span>设置</span>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="user-card">
+                <div class="user-avatar">S</div>
+                <div class="user-name">Student</div>
+                <div class="user-role">大数据管理与应用 · 大二</div>
+            </div>
+            <div class="nav-item" onclick="logoutSys()">
+                <i class="fas fa-sign-out-alt"></i><span>退出登录</span>
+            </div>
+        </div>
+    </aside>
+    <main class="main-content">
+        <div class="page-title">
+            <h1>全部学习任务</h1>
+            <p>查看你所有的课程作业、项目报告和竞赛任务</p>
+        </div>
+
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">数据结构作业：第6章算法实现</div>
+                <div class="task-status status-pending">待完成</div>
+            </div>
+            <div class="task-info">截止时间：2026-07-25 | 课程：数据结构与算法</div>
+            <div class="task-desc">完成课本第6章课后算法题，包括排序、查找等算法的代码实现与测试，提交代码和运行截图。</div>
+        </div>
+
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">Python项目报告：数据分析案例</div>
+                <div class="task-status status-doing">进行中</div>
+            </div>
+            <div class="task-info">截止时间：2026-07-27 | 课程：Python数据分析</div>
+            <div class="task-desc">使用Python对给定数据集进行清洗、分析和可视化，撰写完整的项目报告，包括数据处理过程、分析结果和结论。</div>
+        </div>
+
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">数学建模论文初稿</div>
+                <div class="task-status status-doing">进行中</div>
+            </div>
+            <div class="task-info">截止时间：2026-07-21 | 竞赛：数学建模</div>
+            <div class="task-desc">完成数学建模竞赛论文初稿，包括问题分析、模型建立、求解过程和结果分析，提交给导师审核。</div>
+        </div>
+
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">课程资料整理</div>
+                <div class="task-status status-done">已完成</div>
+            </div>
+            <div class="task-info">完成时间：2026-07-15 | 课程：大数据管理</div>
+            <div class="task-desc">整理本学期大数据管理课程的所有课件和笔记，形成复习资料，方便期末复习使用。</div>
+        </div>
+    </main>
+<script>
+if(!localStorage.getItem('isLogin')){
+    window.location.href="login.html";
+}
+function logoutSys(){
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('userName');
+    alert('已成功退出登录');
+    window.location.href="login.html";
+}
+</script>
+</body>
+</html>

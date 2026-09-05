@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组队详情 - 星途平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/3.3.0/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: 'Inter', system-ui, sans-serif;background-color: #f7f3ea;color: #111827;display: flex;min-height: 100vh;}
+        .sidebar {width: 250px;background-color: #111827;color: white;min-height: 100vh;padding: 24px 20px;display: flex;flex-direction: column;justify-content: space-between;flex-shrink: 0;}
+        .sidebar-logo {display: flex;align-items: center;gap: 10px;margin-bottom: 32px;}
+        .sidebar-logo .logo-mark {width: 34px;height: 34px;background-color: #ffffff;border-radius: 10px;display: flex;align-items: center;justify-content: center;color: #111827;font-weight: 700;font-size: 18px;}
+        .sidebar-logo .logo-text {font-size: 20px;font-weight: 700;letter-spacing: 0.5px;}
+        .nav-item {display: flex;align-items: center;gap: 12px;padding: 11px 14px;border-radius: 12px;color: #d1d5db;cursor: pointer;transition: 0.22s ease;margin-bottom: 8px;font-size: 14px;}
+        .nav-item:hover {background-color: #1f2937;color: #ffffff;}
+        .nav-item.active {background-color: #ffffff;color: #111827;font-weight: 600;}
+        .sidebar-bottom {margin-top: auto;padding-top: 24px;border-top: 1px solid #1f2937;}
+        .user-card {background-color: #1f2937;border-radius: 14px;padding: 14px;margin-bottom: 16px;}
+        .user-avatar {width: 42px;height: 42px;border-radius: 50%;background: linear-gradient(135deg, #fbbf24, #f97316);display: flex;align-items: center;justify-content: center;font-weight: 700;color: #111827;margin-bottom: 10px;}
+        .user-name {font-size: 15px;font-weight: 600;color: #ffffff;}
+        .user-role {font-size: 12px;color: #9ca3af;}
+        .main-content {flex: 1;padding: 24px 32px;overflow-y: auto;}
+        .back-btn{margin-bottom:20px;cursor:pointer;color:#2563eb;font-size:15px;}
+        .detail-box{background:#fff;border-radius:16px;padding:35px;box-shadow:0 4px 14px rgba(0,0,0,0.06);margin-bottom:25px;}
+        .detail-title{font-size:24px;font-weight:bold;margin-bottom:15px;line-height:1.4;}
+        .detail-info{display:flex;flex-wrap:wrap;gap:15px;margin-bottom:20px;font-size:14px;color:#666;}
+        .info-tag{padding:4px 12px;border-radius:8px;font-size:13px;}
+        .need-tag{background:#e6f7ff;color:#1890ff;}
+        .full-tag{background:#f0f0f0;color:#666;}
+        .content-block{margin:20px 0;}
+        .block-title{font-size:16px;font-weight:bold;margin-bottom:12px;padding-left:8px;border-left:4px solid #2563eb;}
+        .block-text{font-size:15px;line-height:1.8;color:#333;}
+        .contact-box{background:#f8f9fa;padding:18px;border-radius:12px;margin:20px 0;}
+        .msg-title{font-size:18px;font-weight:bold;margin:30px 0 15px 0;}
+        .msg-item{background:#fff;padding:15px;border-radius:12px;margin-bottom:12px;box-shadow:0 2px 8px #eee;}
+        .msg-user{font-weight:bold;margin-bottom:4px;}
+        .msg-time{font-size:12px;color:#999;margin-bottom:6px;}
+        .send-msg textarea{width:100%;border:1px solid #ddd;padding:12px;border-radius:8px;outline:none;resize:none;}
+        .send-btn{margin-top:10px;padding:8px 20px;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-logo">
+                <div class="logo-mark">星</div>
+                <div class="logo-text">星途平台</div>
+            </div>
+            <nav>
+                <div class="nav-item" onclick="location.href='index.html'">
+                    <i class="fas fa-th-large"></i><span>仪表盘</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-info.html'">
+                    <i class="fas fa-newspaper"></i><span>竞赛资讯</span>
+                </div>
+                <div class="nav-item active" onclick="location.href='race-team.html'">
+                    <i class="fas fa-users"></i><span>竞赛组队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='teacher.html'">
+                    <i class="fas fa-user-tie"></i><span>导师团队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='community.html'">
+                    <i class="fas fa-comments"></i><span>社区讨论</span>
+                </div>
+                <div class="nav-item" onclick="location.href='plan.html'">
+                    <i class="fas fa-lightbulb"></i><span>升学规划</span>
+                </div>
+                <div class="nav-item" onclick="location.href='setting.html'">
+                    <i class="fas fa-cog"></i><span>设置</span>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="user-card">
+                <div class="user-avatar">S</div>
+                <div class="user-name">Student</div>
+                <div class="user-role">大数据管理与应用 · 大二</div>
+            </div>
+            <div class="nav-item" onclick="logoutSys()">
+                <i class="fas fa-sign-out-alt"></i><span>退出登录</span>
+            </div>
+        </div>
+    </aside>
+    <main class="main-content">
+        <div class="back-btn" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i> 返回组队广场
+        </div>
+        <div class="detail-box">
+            <h2 class="detail-title" id="teamTitle"></h2>
+            <div class="detail-info" id="teamInfo"></div>
+
+            <div class="content-block">
+                <div class="block-title">队伍项目简介</div>
+                <div class="block-text" id="teamIntro"></div>
+            </div>
+
+            <div class="content-block">
+                <div class="block-title">招募岗位 & 能力要求</div>
+                <div class="block-text" id="teamRequire"></div>
+            </div>
+
+            <div class="content-block">
+                <div class="block-title">备赛安排与时间规划</div>
+                <div class="block-text" id="teamTime"></div>
+            </div>
+
+            <div class="content-block">
+                <div class="block-title">队内优势与资源</div>
+                <div class="block-text" id="teamRes"></div>
+            </div>
+
+            <div class="contact-box" id="teamContact"></div>
+        </div>
+
+        <h3 class="msg-title">意向咨询留言区</h3>
+        <div id="msgBox"></div>
+
+        <div class="send-msg">
+            <textarea rows="3" id="teamMsg" placeholder="写下你的加入意向、自身擅长技能、空余时间等信息"></textarea>
+            <button class="send-btn" onclick="addTeamMsg()">提交咨询留言</button>
+        </div>
+    </main>
+<script>
+if(!localStorage.getItem('isLogin')){
+    window.location.href="login.html";
+}
+function logoutSys(){
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('userName');
+    alert('已退出登录');
+    location.href='login.html';
+}
+
+// 所有组队完整详情数据
+const teamData = {
+    1:{
+        title:"数学建模竞赛｜招募数据分析与建模队友",
+        info:"发布人：在校大二学生 | 所属专业：大数据管理与应用 | 招募状态：<span class='info-tag need-tag'>急缺1人</span>",
+        intro:"本次组队全力备战全国大学生数学建模竞赛国赛，赛事含金量高，可用于综测加分、评优保研、简历镀金。目前团队已有两名固定成员，分别负责论文撰写、格式排版、摘要润色等工作，整体参赛经验充足，往年参与过省赛具备一定实战基础。选题方向偏向社会经济数据分析、资源统计调研类，贴合本专业学习内容，上手难度适中。",
+        require:"1. 熟练使用Python、SPSS、Excel进行数据清洗与统计分析；<br>2. 了解基础数学模型、统计模型搭建思路；<br>3. 时间充裕，赛前可保证每周固定时间线上线下集中研讨；<br>4. 态度认真负责，不中途退队，有参赛经验者优先录取。",
+        time:"1. 日常阶段：每周固定2次线上研讨，梳理选题与数据思路；<br>2. 赛前冲刺：赛前一个月集中刷题、研读优秀获奖论文；<br>3. 正式比赛期间：全程全身心投入，分工协作完成全部作品内容。",
+        res:"可对接学院经管类资深指导导师免费赛前指导；共享历年数模优秀获奖论文、全套模板、常用代码工具包；队内氛围轻松和睦，分工明确无内耗；获奖后统一整理参赛证明、加分材料。",
+        contact:"📞 联系方式：校内私聊 / 平台私信对接<br>💬 对接时间：每日晚间19:00-22:00在线沟通<br>✅ 优先审核有数据分析基础同学"
+    },
+    2:{
+        title:"创新大赛｜乡村振兴大数据创业项目组队",
+        info:"发布人：经管学院大三学长 | 招募状态：<span class='info-tag need-tag'>缺文案+设计共2人</span>",
+        intro:"项目聚焦乡村特色农产品产销对接大数据平台方向，贴合乡村振兴主流参赛赛道，立意新颖贴合政策导向，极易获得评委青睐。项目框架已经初步搭建完成，市场调研基础数据已经收集完毕，现阶段主要完善商业计划书、可行性分析、项目PPT可视化展示内容。往届同类型项目曾斩获省级二等奖，参赛思路成熟稳妥。",
+        require:"1. 文案岗：擅长商业计划书、项目申报书撰写，文笔流畅逻辑清晰；<br>2. 设计岗：熟练PPT制作、图文排版、简单海报设计；<br>3. 了解乡村经济、电商助农相关热点内容优先；<br>4. 做事细心耐心，能够配合团队反复修改打磨作品。",
+        time:"课余碎片化时间即可完成内容撰写，每月开展两次线下碰面完善项目细节，赛事截止前集中定稿优化，时间灵活不占用过多课业时间。",
+        res:"拥有完整往届同赛道获奖作品参考；学院专业创业导师全程指点打磨项目；可申请校内创新创业项目扶持资源；优秀成员可共同参与后续课题研究。",
+        contact:"对接方式：平台留言留下自身特长，负责人主动联系沟通细节"
+    },
+    3:{
+        title:"三创赛｜电商用户画像与销量预测参赛组",
+        info:"发布人：大数据大二学生 | 招募状态：<span class='info-tag full-tag'>队伍已满停止招募</span>",
+        intro:"队伍已经全员组建完毕，主攻电子商务创新创业实战赛道，依托真实公开电商交易数据集，完成用户人群画像划分、消费习惯分析、商品销量趋势预测等核心内容，全程运用专业数据分析手段完成参赛作品，专业性极强。",
+        require:"已停止招募，仅接受赛后交流学习经验",
+        time:"固定周末统一集中训练实操数据分析技能，定期复盘作品优化不足",
+        res:"队内全员精通数据分析流程，内部共享数据集、分析源码、参赛全套资料",
+        contact:"暂不接受新成员加入，可加入交流群学习备赛经验"
+    },
+    4:{
+        title:"计算机设计大赛｜数据可视化大屏制作组队",
+        info:"发布人：信管专业学生 | 招募状态：<span class='info-tag need-tag'>急需视觉设计队友</span>",
+        intro:"参赛作品方向为自然资源大数据可视化管理平台，贴合学校特色专业发展方向，作品以页面搭建、数据图表展示、动态大屏效果为主，实用性与展示性兼备，参赛竞争力强。技术核心部分已有成员负责完成，目前缺少视觉美化与页面布局优化人员。",
+        require:"1. 具备基础审美能力，会简单配色与页面布局；<br>2. 了解ECharts、可视化图表基础用法优先；<br>3. 零基础愿意学习也可接纳，队内耐心教学；<br>4. 做事积极主动，善于提出优化创意。",
+        time:"课业之余分工完成各自板块内容，整体进度宽松，无高强度赶工压力。",
+        res:"提供全套前端基础模板、数据可视化案例参考；专业老师指导作品优化；适合零基础积累项目实战简历。",
+        contact:"有意者直接留言个人擅长方向，快速入队对接"
+    },
+    5:{
+        title:"市场调查大赛｜社会民生调研项目招队友",
+        info:"发布人：在校老牌参赛团队 | 招募状态：<span class='info-tag need-tag'>缺调研报告撰写人员</span>",
+        intro:"主打社会民生类实地调研赛事，选题包含校园消费结构、城市资源利用、青年就业观念等易落地方向，调研流程简单易执行，数据收集难度低，获奖整体概率偏高，非常适合新手初次参赛积累奖项。",
+        require:"擅长文字整合、问卷整理、数据分析总结，能够独立完成部分章节调研报告撰写，细心严谨即可，无需高强度技术能力。",
+        time:"利用课余时间发放问卷收集数据，后期集中一周时间整合撰写报告，节奏轻松友好。",
+        res:"团队拥有连续多年参赛经验，掌握高分调研报告写作套路，手把手带新人入门参赛。",
+        contact:"欢迎大一大二萌新加入试水积累奖项"
+    },
+    6:{
+        title:"蓝桥杯赛道｜Python编程刷题备考组队",
+        info:"发布人：校内技术爱好者 | 招募状态：<span class='info-tag need-tag'>不限人数自由加入</span>",
+        intro:"纯学习刷题备考小队，不限制专业年级，共同备战蓝桥杯程序设计竞赛，以提升代码能力、算法思维为核心目标，同时为日后求职编程类岗位打下扎实基础，氛围纯粹以学习交流为主。",
+        require:"有Python基础即可，零基础愿意从头学习也可加入，坚持每日刷题打卡。",
+        time:"线上每日打卡刷题，晚间统一讲解难题错题，自由安排学习时长。",
+        res:"共享历年真题、刷题题库、学习路线笔记，多人互助学习效率更高。",
+        contact:"长期开放入队，随时留言即可拉进学习群"
+    },
+    7:{
+        title:"节能减排竞赛｜低碳能源数据分析项目组队",
+        info:"发布人：资源管理专业学生 | 招募状态：<span class='info-tag need-tag'>缺数据整理队友</span>",
+        intro:"紧扣双碳、低碳节能国家热点政策，整理行业公开能源消耗、环保统计类数据，完成数据分析与实践报告撰写，题材贴合院校科研主流方向，极易获得专业老师认可与指导。",
+        require:"会基础数据录入、表格汇总、简单数据对比分析，做事踏实稳重即可。",
+        time:"进度平缓，按月推进项目内容，不耽误日常上课学习。",
+        res:"可直接对接资源类专业导师获取专业指导意见，加分评优优势大。",
+        contact:"适合偏向安稳学术路线同学加入"
+    },
+    8:{
+        title:"大创项目｜校级创新训练计划招募组员",
+        info:"发布人：项目负责人 | 招募状态：<span class='info-tag need-tag'>缺2-3名核心组员</span>",
+        intro:"申报校级大学生创新创业训练计划项目，立项成功即可获得学校专项经费支持、实践学分加分，项目周期较长，能够完整参与从选题、调研、研究到结项全流程，是本科阶段含金量极高的科研经历。",
+        require:"态度端正愿意长期坚持参与项目，能够配合完成调研、数据整理、中期报告、结项材料等工作，有科研意向同学优先。",
+        time:"项目周期一至两年，阶段性完成对应任务即可，时间分配自由。",
+        res:"全程跟随导师做课题研究，可积累学术经历，为保研、考研复试增添硬核履历。",
+        contact:"长期稳定招募，优先确定长期稳定参与成员"
+    },
+    9:{
+        title:"文案策划专项｜各类赛事文稿代写组队协作",
+        info:"发布人：文案特长在校生 | 招募状态：<span class='info-tag full-tag'>长期稳定合作</span>",
+        intro:"主打赛事文书全流程撰写服务，擅长互联网+、三创赛、大创、各类调研大赛申报书、计划书、结题报告、演讲稿等文稿创作，长期和技术型队伍搭档合作，分工共赢高效拿奖。",
+        require:"对外承接队伍合作，暂不招收队内新成员",
+        time:"按需对接稿件撰写时间，高效准时交付",
+        res:"多年文案参赛经验，熟悉各类赛事评分偏好",
+        contact:"有队伍需要文稿合作可留言洽谈"
+    },
+    10:{
+        title:"跨专业联合组队｜全赛事通用预备团队",
+        info:"发布人：校内综合参赛社团 | 招募状态：<span class='info-tag need-tag'>全校不限人数招募</span>",
+        intro:"整合全校不同专业特长同学组建大型预备参赛池，不分专业、不分年级，后续有任何赛事都可以自由拆分重组组队，实现技能互补，告别找不到合适队友的难题，同时共享全校参赛一手资源。",
+        require:"热爱参赛、愿意交流学习，拥有任意一项特长即可加入（技术/文案/设计/调研/演讲等）",
+        time:"平时自由交流，赛事来临快速组建临时队伍备赛",
+        res:"共享报名通知、优秀作品、备赛资料、导师资源，新人快速融入参赛圈子",
+        contact:"全员开放入驻，搭建校内最大参赛互助圈子"
+    }
+};
+
+// 留言数据
+let msgList = {
+    1:[
+        {user:"大数据萌新",time:"2026-07-18 09:20",text:"本人会基础SPSS数据分析，空余时间充足，想要加入队伍一起备赛"},
+        {user:"数模爱好者",time:"2026-07-17 21:10",text:"之前参加过省赛，熟悉整体流程，请问还可以加入吗"},
+        {user:"经管同学",time:"2026-07-16 16:33",text:"没有建模基础但是学习能力很强，队内愿意带新人嘛？"}
+    ],
+    2:[
+        {user:"文案能手",time:"2026-07-18 10:11",text:"长期写创业计划书，风格贴合参赛要求，希望可以加入团队"},
+        {user:"设计小白",time:"2026-07-17 15:22",text:"擅长PPT美化排版，时间充裕随时可以配合修改"}
+    ],
+    3:[],
+    4:[
+        {user:"视觉设计党",time:"2026-07-18 08:44",text:"擅长页面配色与布局设计，想要加入一起做可视化作品"}
+    ],
+    5:[
+        {user:"调研爱好者",time:"2026-07-17 19:00",text:"擅长问卷发放和数据汇总，很适合这份组队需求"}
+    ],
+    6:[
+        {user:"编程小白",time:"2026-07-18 11:22",text:"正在自学Python，希望加入小队一起打卡进步"}
+    ],
+    7:[],
+    8:[
+        {user:"考研党",time:"2026-07-17 20:10",text:"想积累科研经历，时间稳定可以长期参与项目"}
+    ],
+    9:[],
+    10:[
+        {user:"大一新生",time:"2026-07-18 09:55",text:"刚入学想提前了解各类赛事，希望加入大家庭学习经验"},
+        {user:"技术大佬",time:"2026-07-17 22:10",text:"擅长后端开发与数据分析，可随时组队参战各类赛事"}
+    ]
+};
+
+// 渲染页面
+let tid = new URLSearchParams(location.search).get('tid');
+let team = teamData[tid];
+let nowMsg = [];
+if(team){
+    document.getElementById('teamTitle').innerText = team.title;
+    document.getElementById('teamInfo').innerHTML = team.info;
+    document.getElementById('teamIntro').innerHTML = team.intro;
+    document.getElementById('teamRequire').innerHTML = team.require;
+    document.getElementById('teamTime').innerHTML = team.time;
+    document.getElementById('teamRes').innerHTML = team.res;
+    document.getElementById('teamContact').innerText = team.contact;
+    nowMsg = msgList[tid] || [];
+    renderMsg();
+}
+
+// 渲染留言
+function renderMsg(){
+    let html = "";
+    nowMsg.forEach(item=>{
+        html += `
+        <div class="msg-item">
+            <div class="msg-user">${item.user}</div>
+            <div class="msg-time">${item.time}</div>
+            <div class="block-text">${item.text}</div>
+        </div>
+        `
+    })
+    document.getElementById('msgBox').innerHTML = html;
+}
+
+// 新增留言
+function addTeamMsg(){
+    let val = document.getElementById('teamMsg').value.trim();
+    if(!val){
+        alert("请填写你的咨询意向！");
+        return;
+    }
+    let newM = {
+        user:"在校参赛学生",
+        time:new Date().toLocaleString(),
+        text:val
+    };
+    nowMsg.unshift(newM);
+    renderMsg();
+    document.getElementById('teamMsg').value = "";
+    alert("留言提交成功，等待负责人回复~");
+}
+</script>
+</body>
+</html>

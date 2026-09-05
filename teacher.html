@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导师团队 - 星途平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/tailwindcss/3.3.0/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+        body {font-family: 'Inter', system-ui, sans-serif;background-color: #f7f3ea;color: #111827;display: flex;min-height: 100vh;}
+        /* 侧边栏 */
+        .sidebar {width: 250px;background-color: #111827;color: white;min-height: 100vh;padding: 24px 20px;display: flex;flex-direction: column;justify-content: space-between;flex-shrink: 0;}
+        .sidebar-logo {display: flex;align-items: center;gap: 10px;margin-bottom: 32px;}
+        .sidebar-logo .logo-mark {width: 34px;height: 34px;background-color: #ffffff;border-radius: 10px;display: flex;align-items: center;justify-content: center;color: #111827;font-weight: 700;font-size: 18px;}
+        .sidebar-logo .logo-text {font-size: 20px;font-weight: 700;letter-spacing: 0.5px;}
+        .nav-item {display: flex;align-items: center;gap: 12px;padding: 11px 14px;border-radius: 12px;color: #d1d5db;cursor: pointer;transition: 0.22s ease;margin-bottom: 8px;font-size: 14px;}
+        .nav-item:hover {background-color: #1f2937;color: #ffffff;}
+        .nav-item.active {background-color: #ffffff;color: #111827;font-weight: 600;}
+        .sidebar-bottom {margin-top: auto;padding-top: 24px;border-top: 1px solid #1f2937;}
+        .user-card {background-color: #1f2937;border-radius: 14px;padding: 14px;margin-bottom: 16px;}
+        .user-avatar {width: 42px;height: 42px;border-radius: 50%;background: linear-gradient(135deg, #fbbf24, #f97316);display: flex;align-items: center;justify-content: center;font-weight: 700;color: #111827;margin-bottom: 10px;}
+        .user-name {font-size: 15px;font-weight: 600;color: #ffffff;}
+        .user-role {font-size: 12px;color: #9ca3af;}
+        /* 主内容区 */
+        .main-content {flex: 1;padding: 24px 32px;overflow-y: auto;}
+        .top-bar {display: flex;justify-content: space-between;align-items: center;margin-bottom: 28px;}
+        .search-box {display: flex;align-items: center;background-color: #ffffff;border: 1px solid #e5e7eb;border-radius: 999px;padding: 10px 16px;width: 260px;}
+        .search-box i {color: #9ca3af;margin-right: 8px;}
+        .search-box input {border: none;outline: none;width: 100%;font-size: 14px;color: #111827;}
+        .top-actions {display: flex;align-items: center;gap: 12px;}
+        .icon-btn {width: 40px;height: 40px;border-radius: 50%;background-color: #ffffff;border: 1px solid #e5e7eb;display: flex;align-items: center;justify-content: center;color: #6b7280;cursor: pointer;transition: 0.2s ease;}
+        .icon-btn:hover {background-color: #f3f4f6;color: #111827;}
+        .page-title {margin-bottom: 24px;}
+        .page-title h1 {font-size: 26px;font-weight: 800;letter-spacing: 0.5px;margin-bottom: 6px;}
+        .page-title p {color: #6b7280;font-size: 15px;}
+        /* 导师卡片样式 */
+        .teacher-container {display: grid;grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));gap: 24px;}
+        .teacher-card {background:#fff;border-radius:20px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.05);transition:0.3s ease;border:1px solid #f3f4f6;}
+        .teacher-card:hover{transform: translateY(-4px);box-shadow:0 8px 25px rgba(0,0,0,0.08);}
+        .teacher-name{font-size:19px;font-weight:700;margin-bottom:12px;}
+        .teacher-name a{color:#111827;text-decoration:none;}
+        .teacher-name a:hover{color:#2563eb;text-decoration:underline;}
+        .dir-text {font-size:14px;color:#333;margin:10px 0;line-height:1.7;}
+        .honor-text {font-size:13px;color:#666;line-height:1.8;}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-logo">
+                <div class="logo-mark">星</div>
+                <div class="logo-text">星途平台</div>
+            </div>
+            <nav>
+                <div class="nav-item" onclick="location.href='index.html'">
+                    <i class="fas fa-th-large"></i><span>仪表盘</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-info.html'">
+                    <i class="fas fa-newspaper"></i><span>竞赛资讯</span>
+                </div>
+                <div class="nav-item" onclick="location.href='race-team.html'">
+                    <i class="fas fa-users"></i><span>竞赛组队</span>
+                </div>
+                <div class="nav-item active" onclick="location.href='teacher.html'">
+                    <i class="fas fa-user-tie"></i><span>导师团队</span>
+                </div>
+                <div class="nav-item" onclick="location.href='community.html'">
+                    <i class="fas fa-comments"></i><span>社区讨论</span>
+                </div>
+                <div class="nav-item" onclick="location.href='plan.html'">
+                    <i class="fas fa-lightbulb"></i><span>升学规划</span>
+                </div>
+                <div class="nav-item" onclick="location.href='setting.html'">
+                    <i class="fas fa-cog"></i><span>设置</span>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="user-card">
+                <div class="user-avatar">S</div>
+                <div class="user-name">Student</div>
+                <div class="user-role">大数据管理与应用 · 大二</div>
+            </div>
+            <div class="nav-item" onclick="logoutSys()">
+                <i class="fas fa-sign-out-alt"></i><span>退出登录</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <!-- 绑定搜索事件 -->
+                <input type="text" id="searchInput" placeholder="搜索导师、研究方向..." oninput="searchTeacher()">
+            </div>
+            <div class="top-actions">
+                <div class="icon-btn"><i class="fas fa-envelope"></i></div>
+                <div class="icon-btn"><i class="fas fa-bell"></i></div>
+                <div class="icon-btn"><i class="fas fa-cog"></i></div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h1>经管学院导师库</h1>
+            <p>点击导师姓名跳转官方完整学术主页，查看论文成果、科研项目与招生信息</p>
+        </div>
+
+        <div class="teacher-container" id="teacherBox">
+            <!-- 1 安海忠 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/593.shtml" target="_blank">安海忠 二级教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>系统模拟与优化决策、资源管理工程、管理心理与行为、风险与应急管理、数据科学与商务智能</p>
+                <p class="honor-text"><b>荣誉简介：</b>曾任经管学院院长，多项国家级学会重要任职；连续多年获评研究生指导名师，主持重大科研项目80余项，百余篇高水平论文，长期入选领域高被引学者。</p>
+            </div>
+            <!-- 2 崔巍 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/610.shtml" target="_blank">崔巍 管理学博士/讲师</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>机器学习与深度学习、时间序列数据挖掘</p>
+                <p class="honor-text"><b>荣誉简介：</b>擅长算法类科研与竞赛指导，指导学生发表SCI论文，多次斩获三创赛、计算机设计大赛等各级科创赛事奖项。</p>
+            </div>
+            <!-- 3 方伟 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/578.shtml" target="_blank">方伟 教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>资源环境承载力、能源资源系统工程</p>
+                <p class="honor-text"><b>荣誉简介：</b>美国高校访问学者，多篇一区学术论文，担任多本国际期刊审稿人，主持多项自然资源领域重点项目，荣获多项行业科研成果奖。</p>
+            </div>
+            <!-- 4 高湘昀 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/541.shtml" target="_blank">高湘昀 教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>复杂系统管理、数据挖掘、矿产资源环境经济管理</p>
+                <p class="honor-text"><b>荣誉简介：</b>学院副院长，入选全球顶尖科学家榜单，国家级一流课程负责人，多篇顶刊论文产出，常年带领学生参与各类科研与竞赛项目。</p>
+            </div>
+            <!-- 5 黄鹤 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/2674.shtml" target="_blank">黄鹤 副教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>网络传播动力学、电子商务、健康管理</p>
+                <p class="honor-text"><b>荣誉简介：</b>清华博士后、海外名校访问经历，商学院顶刊发表成果，主持国家自然科学基金项目，鼓励本科生参与科研创作。</p>
+            </div>
+            <!-- 6 黄书培 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/2358.shtml" target="_blank">黄书培 副教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>复杂系统风险管理、博弈论、大模型</p>
+                <p class="honor-text"><b>荣誉简介：</b>多本SSCI期刊副主编，主持十余项省部级及国家级课题，培养多名优秀硕博研究生，竞赛指导经验丰富。</p>
+            </div>
+            <!-- 7 李华姣 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/619.shtml" target="_blank">李华姣 教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>数据挖掘与复杂系统建模、矿产资源产业经济与管理政策</p>
+                <p class="honor-text"><b>荣誉简介：</b>管理系主任，北京市青年教学名师，教学竞赛成绩优异，多篇智库报告获高层采纳，90+SCI论文，常年带队各类国家级学科竞赛。</p>
+            </div>
+            <!-- 8 李家全 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/2861.shtml" target="_blank">李家全 副教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>碳捕集与封存、氢能技术评估、低碳政策规划</p>
+                <p class="honor-text"><b>荣誉简介：</b>国家碳中和领域编写专家，3份政策报告被中办采纳，拥有国家标准编制、专利软著等多项科研成果。</p>
+            </div>
+            <!-- 9 李枭伟 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/2936.shtml" target="_blank">李枭伟 讲师/硕导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>物流与供应链管理、智慧物流、人机协同、电子商务</p>
+                <p class="honor-text"><b>荣誉简介：</b>香港理工大学访问学者，主持多项青年科研基金项目，擅长指导大创、三创赛等创新创业类项目。</p>
+            </div>
+            <!-- 10 刘海燕 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/731.shtml" target="_blank">刘海燕 二级教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>应急管理与风险预警、公共危机舆情、资源安全、数据挖掘仿真</p>
+                <p class="honor-text"><b>荣誉简介：</b>市级三八红旗奖章获得者，主持数十项国家级省部级课题，论文与专著成果丰富，教学科研奖项众多。</p>
+            </div>
+            <!-- 11 刘雅菲 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/2951.shtml" target="_blank">刘雅菲 管理学博士/讲师</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>商务数据挖掘与应用、资源整合和价值共创</p>
+                <p class="honor-text"><b>荣誉简介：</b>北航毕业，多篇高分区SSCI论文入选ESI高被引，参与多项国家级社科与自然基金课题，担任多类学术期刊审稿人。</p>
+            </div>
+            <!-- 12 马少超 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/2803.shtml" target="_blank">马少超 副教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>低碳能源经济与环境政策系统分析、新能源汽车行业政策</p>
+                <p class="honor-text"><b>荣誉简介：</b>美国康奈尔大学访问学者，主持多项国自科项目，顶级期刊发文成果亮眼，研究成果被主流媒体广泛转载。</p>
+            </div>
+            <!-- 13 牟博佼 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/2702.shtml" target="_blank">牟博佼 讲师/高级经济师</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>金融量化交易模型、大数据建模分析、行为供应链管理</p>
+                <p class="honor-text"><b>荣誉简介：</b>清华博士，具备多年企业金融实战经验，主讲大数据、Python数据分析等实用核心课程，实操教学能力强。</p>
+            </div>
+            <!-- 14 彭珍 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/2862.shtml" target="_blank">彭珍 教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>数据智能、智能博弈、大数据、人工智能、博弈论</p>
+                <p class="honor-text"><b>荣誉简介：</b>北京市青年拔尖人才，多项国家级在研课题，擅长带领本科生入门人工智能与大数据方向科研项目。</p>
+            </div>
+            <!-- 15 唐岩岩 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/2962.shtml" target="_blank">唐岩岩 管理学博士/讲师</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>退役动力电池固废管理、循环经济系统分析</p>
+                <p class="honor-text"><b>荣誉简介：</b>清华博士后，行业专项评审专家，主持多项青年重点基金，多篇一区期刊论文，政策研究成果落地性强。</p>
+            </div>
+            <!-- 16 涂庆 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/556.shtml" target="_blank">涂庆 副教授/硕导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>数据分析、系统开发、信息资源管理、数据库、ERP系统</p>
+                <p class="honor-text"><b>荣誉简介：</b>主讲多门信管专业核心课程，教学经验充足，常年指导大创项目与毕业论文，培养众多优秀应用型人才。</p>
+            </div>
+            <!-- 17 张龙 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/586.shtml" target="_blank">张龙 教授/博导</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>资源环境管理、风险与应急管理</p>
+                <p class="honor-text"><b>荣誉简介：</b>海外高校访问学者，兼任境外高校博导，国际期刊主编，主持多项社科基金项目，科研涉猎范围广。</p>
+            </div>
+            <!-- 18 赵路 -->
+            <div class="teacher-card">
+                <h3 class="teacher-name">
+                    <a href="https://scholar.cugb.edu.cn/scholar/scholarDetail/3013.shtml" target="_blank">赵路 讲师</a>
+                </h3>
+                <p class="dir-text"><b>研究方向：</b>大数据商务分析、复杂数据分析、社交媒体与用户评论分析</p>
+                <p class="honor-text"><b>荣誉简介：</b>北航博士、中科院博士后，深耕数据分析领域，积极吸纳本科生参与各类数据分析类课题研究。</p>
+            </div>
+        </div>
+    </main>
+<script>
+// 退出登录
+function logoutSys(){
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('userName');
+    alert('已成功退出登录');
+    window.location.href="login.html";
+}
+
+// 核心搜索功能
+function searchTeacher(){
+    let key = document.getElementById('searchInput').value.trim().toLowerCase();
+    let cards = document.querySelectorAll('.teacher-card');
+    cards.forEach(item=>{
+        let text = item.innerText.toLowerCase();
+        if(text.indexOf(key) !== -1){
+            item.style.display = 'block';
+        }else{
+            item.style.display = 'none';
+        }
+    })
+}
+</script>
+</body>
+</html>
